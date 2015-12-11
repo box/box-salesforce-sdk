@@ -1,0 +1,21 @@
+public class BoxTestJsonResponseFactory {
+
+    public static final String AUTH_PRIVATE_KEY = 'MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyFbGMzgh/9Lk+MefCNao0zOgEgr/L/uvlg52FViMAmxqiHL+ZXLRIErgVp28SmpPiG5a1cL54TxRj5k1fDSKJzlbjrtBAKZNuiuD3HQZTDDCGbn8V2MTURFg/FacpYQXvCu1y60vCF234Z8WzAal+xFv0ASC5xOH2gjky2u83ZjOOgVknkBHe6oecSdDzIqaKmfwRUHBYqeKOAaeTs50+jEe4rQ35LYIZhh71mT/OBxzP5hnrJntjFZdNm6anpH2Q0F31oVquF6RVuNHQPcW6Er/EuoX8ihT6zyey7KC3XqOrvwVsYtZ/bVqVIat9rk0+0dNaMF8BQ4LxdinxHNjtAgMBAAECggEAJUKEs4EoJh195JVseCXiRsnYgZkZqATeNlcjThKHoEjTebeqHtxWm/3Opjkx9CKDbnt3PN8p+uIQ0hYNeiW1ZD/Xzit1Rvdr8WT9TLa17ApQ3M+hp2CDTiY+kHRnVTEHnMwcgj7YyvM7/w03QAzI+cz7sEHMJxIadQkqDongIybVRXQk7bQOH+Qrs2hvgB9KPotekn/ZIyqvsaMrxaizoqfBZ2WRISjGHt2l0+FOA1xR3zjWju8qECBI/bQHTgzqW59KxVkLcBnSIUSDgep8E4AyMqbQdIMoxdHEHEBf8AHhvOd+d10d+EBkgU2oVE+T3iouF9aLXRFKzxWxcl68AQKBgQDqdMxt4eEc8CsI20zcXbit9ojIJ2JG4Ls+6IbPfAarf0PUGaNiSRADxatQ+5IwCixKeg4itLHr0MI7WjIjuXDOFCyoSfsBqUz3I79URRf8jzoYmcUZZ3Joh35UTDzDOiR9YypbHmT2nAhSt2+wGRn5C6LzfLLYS/xo3KfDNjiTHQKBgQDCctjesQ26T31DKvSJe7812w6Rc6sIQTIYg19pGpRGq1rlcrKVwY35QZAJsQHys9RzbT4Ezv4Z4/sRTyx604mPEOvhMky31v1qrFMEJQYoy1OeJzSxrFMrPMCouMARKPSEGmfxuB5Vx/F87mILfKC46NbSrxpK5bt0SV74WmckEQKBgQCPKbbSugTNuNFuXQq33PqyL0Iihfn6satkpHP9Kgygl9uBHg6oK1j+FKuhjZwcfXnCGHmdM50ZE6Ymu9K2Abwh+iuyr0n4H7sBhfCEspQNAiBFeU/jTUmNDn9TViIcS9qQPgdVEGAyPeDPMXefnhRAAJ0F9PT4Ip4EIgjGqMsu+QKBgCVHBzSKFOum2YjK7158DsgwWrafyiYm+Yehh+UKZ2q05xQdzQbQuHsUipyRBqKUvyHxy3X4iNZF0pga6ZgSfcijodTmY7bKzIJqzu94eZnQgRNMyNlXBArB9t1hrdCcXWQF++9nMMmZLz6YJMu29Mj+OlDhqNS6/hjpB//stOFBAoGAaxePMEe3qWBKN17RuMild5NeegYmqy++h2vmR7pJbCsr9h5AiYVi4QGXVYPYuy8KHc9nrOydeu7F5ohJr018jtaPrwupYCZRfkAz1/MFFWcDhXutSPGp0DvijY102Gv5LqeAbAsSArM9t4XpxbVJ5CBahTRqtuPbfpPnVJmvWVs=';
+    public static final String AUTH_APP_USER_TOKEN = '{"access_token":"mNr1FrCvOeWiGnwLL0OcTL0Lux5jbyBa","expires_in":4169,"restricted_to":[],"token_type":"bearer"}';
+    public static final String AUTH_USER_TOKEN = '{"access_token":"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl","expires_in":3600,"restricted_to":[],"token_type":"bearer","refresh_token":"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR"}';
+
+    public static final String BOXGROUPMEMBERSHIP_GET_MEMBERSHIP = '{"type":"group_membership","id":"1560354","user":{"type":"user","id":"13130406","name":"Alison Wonderland","login":"alice@gmail.com"},"group":{"type":"group","id":"119720","name":"family"},"role":"member","created_at":"2013-05-16T15:27:57-07:00","modified_at":"2013-05-16T15:27:57-07:00"}';
+
+    public static final String BOXCOLLABORATION_GET_PENDING_COLLABS = '{"total_count":1,"entries":[{"type":"collaboration","id":"27513888","created_by":{"type":"user","id":"11993747","name":"sean","login":"sean@box.com"},"created_at":"2012-10-17T23:14:42-07:00","modified_at":"2012-10-17T23:14:42-07:00","expires_at":null,"status":"Pending","accessible_by":{"type":"user","id":"181216415","name":"sean rose","login":"sean+awesome@box.com"},"role":"Editor","acknowledged_at":null,"item":null}]}';
+    public static final String BOXCOLLABORATION_GET_COLLAB = '{"type":"collaboration","id":"791293","created_by":{"type":"user","id":"17738362","name":"sean rose","login":"sean@box.com"},"created_at":"2012-12-12T10:54:37-08:00","modified_at":"2012-12-12T11:30:43-08:00","expires_at":null,"status":"accepted","accessible_by":{"type":"user","id":"18203124","name":"sean","login":"sean+test@box.com"},"role":"viewer","acknowledged_at":"2012-12-12T11:30:43-08:00","item":{"type":"folder","id":"11446500","sequence_id":"0","etag":"0","name":"Shared Pictures"}}';
+
+    public static final String BOXSHAREDLINK_GET_LINK = '{"url":"https://www.box.com/s/vspke7y05sb214wjokpk","download_url":null,"vanity_url":null,"is_password_enabled":false,"unshared_at":null,"download_count":0,"preview_count":0,"access":"open","permissions":{"can_download":true,"can_preview":true}}';
+
+    public static String getModifiedResponse(String baseResponse, map<String, String> updatedFields) {
+        BoxGenericJsonObject baseObject = new BoxGenericJsonObject(baseResponse);
+        for (String key : updatedFields.keySet()) {
+            baseObject.addValue(key, updatedFields.get(key));
+        }
+        return baseObject.getJsonString();
+    }
+}
