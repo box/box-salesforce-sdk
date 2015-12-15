@@ -24,6 +24,9 @@ Running Tests
 -------------
 Tests are always executed when deploying code to a production salesforce org.  To manually run tests from a sandbox or developer org, go to Setup -> Develop -> Apex Classes and click the "Run All Tests" button.
 
+Support
+-------
+Need to contact us directly? email oss@box.com and be sure to include the name of this project in the subject.  For questions, please contact us directly rather than opening an issue.
 
 Copyright and License
 ---------------------
