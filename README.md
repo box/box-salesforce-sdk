@@ -9,7 +9,7 @@ This is the Box SDK for Salesforce for interacting with the
 Quickstart
 ----------
 The SDK can be deployed directly to Sandbox or Developer Orgs by clicking
-<a href="https://githubsfdeploy.herokuapp.com?owner=box-samples&repo=box-apex-sdk">
+<a href="https://githubsfdeploy.herokuapp.com?owner=box&repo=box-salesforce-sdk">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
