@@ -26,6 +26,7 @@ public virtual class BoxApiConnection {
     public String tokenUrl {get; set;}
     public String baseUrl {get; set;}
     public String baseUploadUrl {get; set;}
+    public String asUserId {get; set;}
 
     public Boolean autoRefresh {get; set;}
 
@@ -68,7 +69,7 @@ public virtual class BoxApiConnection {
         BoxApiRequest request = new BoxApiRequest(this, this.getTokenUrl(), BoxApiRequest.METHOD_POST);
         request.shouldAuthenticate = false;
         request.setTimeout(this.getTimeout());
-        String urlParameters = String.format('grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}', 
+        String urlParameters = String.format('grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}',
             new String[] {authCode, this.getClientId(), this.getClientSecret()});
         request.setBody(urlParameters);
         request.addHeader(HEADER_CONTENT_TYPE, HEADER_APPLICATION_ENCODED);
@@ -179,6 +180,14 @@ public virtual class BoxApiConnection {
 
     public virtual void setBaseUploadUrl(String baseUploadUrl) {
         this.baseUploadUrl = baseUploadUrl;
+    }
+
+    public virtual String getAsUserId() {
+        return this.asUserId;
+    }
+
+    public virtual void setAsUserId(String asUserId) {
+        this.asUserId = asUserId;
     }
 
     public virtual Boolean getAutoRefresh() {
