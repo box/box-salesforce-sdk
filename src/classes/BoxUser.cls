@@ -305,7 +305,7 @@ public class BoxUser extends BoxCollaborator {
 
     /**
      * Deletes a user from an enterprise account.
-     * 
+     *
      * @param notifyUser whether or not to send an email notification to the user that their account has been deleted.
      * @param force      whether or not this user should be deleted even if they still own files.
      * @return true if successful, false if failed (based on expected status code of 204)
@@ -384,9 +384,9 @@ public class BoxUser extends BoxCollaborator {
     }
 
     /**
-     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in. 
+     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in.
      * Parameters indicating how many chunks are left as well as the next stream_position are also returned.
-     * 
+     *
      * See also https://box-content.readme.io/reference#event-object
      *
      * @return a collection of events is returned. See the above table for descriptions of the event types.
@@ -396,12 +396,12 @@ public class BoxUser extends BoxCollaborator {
     }
 
     /**
-     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in. 
+     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in.
      * Parameters indicating how many chunks are left as well as the next stream_position are also returned.
-     * 
+     *
      * See also https://box-content.readme.io/reference#event-object
      *
-     * @param streamPosition (default=0), the location in the event stream at which you want to start receiving events. 
+     * @param streamPosition (default=0), the location in the event stream at which you want to start receiving events.
      * Can specify special case ‘now’ to get 0 events and the latest stream position for initialization.
      * @param streamType (default=all), limits the type of events returned: all: returns everything, changes: returns tree changes, sync: returns tree changes only for sync folders
      * @param limit    (default=100 max=800), limits the number of events returned
@@ -508,11 +508,11 @@ public class BoxUser extends BoxCollaborator {
                 } else if (key == 'timezone') {
                     this.timezone = value;
                 } else if (key == 'space_amount') {
-                    this.spaceAmount = long.valueOf(value);
+                    this.spaceAmount = Double.valueOf(value).longValue();
                 } else if (key == 'space_used') {
-                    this.spaceUsed = long.valueOf(value);
+                    this.spaceUsed = Double.valueOf(value).longValue();
                 } else if (key == 'max_upload_size') {
-                    this.maxUploadSize = long.valueOf(value);
+                    this.maxUploadSize = Double.valueOf(value).longValue();
                 } else if (key == 'can_see_managed_users') {
                     this.canSeeManagedUsers = Boolean.valueOf(value);
                 } else if (key == 'is_sync_enabled') {
@@ -542,7 +542,7 @@ public class BoxUser extends BoxCollaborator {
                 } else if (key == 'hostname') {
                     this.hostname = value;
                 }
-            } 
+            }
          }
 
     }
