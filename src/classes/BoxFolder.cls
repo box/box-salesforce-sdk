@@ -17,7 +17,7 @@ public class BoxFolder extends BoxItem{
     private static final String DELETE_FOLDER_URL = 'folders/{0}?recursive={1}';
     private static final String ADD_COLLABORATION_URL = 'collaborations';
     private static final String GET_COLLABORATIONS_URL = 'folders/{0}/collaborations';
-    private static final String UPLOAD_FILE_URL = 'files/content?parentId={0}';
+    private static final String UPLOAD_FILE_URL = 'files/content?parent_id={0}';
     private static final String GET_CHILDREN_URL = 'folders/{0}/items';
 
     /**
