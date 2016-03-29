@@ -508,11 +508,11 @@ public class BoxUser extends BoxCollaborator {
                 } else if (key == 'timezone') {
                     this.timezone = value;
                 } else if (key == 'space_amount') {
-                    this.spaceAmount = long.valueOf(value);
+                    this.spaceAmount = Double.valueOf(value).longValue();
                 } else if (key == 'space_used') {
-                    this.spaceUsed = long.valueOf(value);
+                    this.spaceUsed = Double.valueOf(value).longValue();
                 } else if (key == 'max_upload_size') {
-                    this.maxUploadSize = long.valueOf(value);
+                    this.maxUploadSize = Double.valueOf(value).longValue();
                 } else if (key == 'can_see_managed_users') {
                     this.canSeeManagedUsers = Boolean.valueOf(value);
                 } else if (key == 'is_sync_enabled') {
@@ -542,7 +542,7 @@ public class BoxUser extends BoxCollaborator {
                 } else if (key == 'hostname') {
                     this.hostname = value;
                 }
-            } 
+            }
          }
 
     }
