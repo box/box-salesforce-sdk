@@ -169,7 +169,7 @@ public class BoxFileVersion extends BoxResource {
                 } else if (key == 'name') {
                     this.name = value;
                 } else if (key == 'size') {
-                    this.size = long.valueOf(value);
+                    this.size = Double.valueOf(value).longValue();
                 } else if (key == 'created_at') {
                     this.createdAt = BoxDateFormat.parseBoxDateTimeString(value);
                 } else if (key == 'modified_at') {
