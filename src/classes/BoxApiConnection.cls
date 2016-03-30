@@ -26,7 +26,8 @@ public virtual class BoxApiConnection {
     public String tokenUrl {get; set;}
     public String baseUrl {get; set;}
     public String baseUploadUrl {get; set;}
-
+	public String asUserId {get; set;}
+	
     public Boolean autoRefresh {get; set;}
 
     public Integer maxRequestAttempts {get; set;}
@@ -181,6 +182,14 @@ public virtual class BoxApiConnection {
         this.baseUploadUrl = baseUploadUrl;
     }
 
+	public virtual String getAsUserId() {
+		return this.asUserId;
+	}
+	
+	public virtual void setAsUserId(String asUserId) {
+		this.asUserId = asUserId;
+	}
+	
     public virtual Boolean getAutoRefresh() {
         return this.autoRefresh;
     }
