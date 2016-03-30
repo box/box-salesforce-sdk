@@ -13,6 +13,10 @@ public class BoxApiRequestTests {
 		Test.startTest();
 		BoxApiRequest request1 = new BoxApiRequest(url, method);
 		BoxApiRequest request2 = new BoxApiRequest(api, url, method);
+		
+		BoxApiConnection api2 = new BoxApiConnection(accessToken);
+		api2.setAsUserId('1234');
+		BoxApiRequest request3 = new BoxApiRequest(api2, url, method);
 		Test.stopTest();
 	}
 	

@@ -34,6 +34,11 @@ public class BoxApiRequest {
         this.shouldAuthenticate = true;
         this.headers = new list<RequestHeader>();
         
+        if(api != null && api.getAsUserId() != null && api.getAsUserId() != '')
+        {
+            this.addHeader('As-User', api.getAsUserId());
+        }
+    	
         this.addHeader('Accept-Encoding', 'gzip');
         this.addHeader('Accept-Charset', 'utf-8');
     }
