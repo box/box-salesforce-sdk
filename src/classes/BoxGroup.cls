@@ -4,8 +4,8 @@
 
 public class BoxGroup extends BoxCollaborator {
 
-    private static final String CREATE_GROUP_URL = '/groups';
-    private static final String GROUP_INFO_URL = '/groups/{0}';
+    private static final String CREATE_GROUP_URL = 'groups';
+    private static final String GROUP_INFO_URL = 'groups/{0}';
 
     /**
      * Constructs a BoxGroup for a group with a given ID.
@@ -44,7 +44,7 @@ public class BoxGroup extends BoxCollaborator {
         BoxGenericJsonObject params = new BoxGenericJsonObject();
         params.addValue('name', groupName);
         if(provenance !=null) {
-            params.addValue('provenance', provenance); 
+            params.addValue('provenance', provenance);
         }
         if(externalSyncIdentifier !=null) {
             params.addValue('external_sync_identifier', externalSyncIdentifier);
@@ -111,7 +111,7 @@ public class BoxGroup extends BoxCollaborator {
         BoxGenericJsonObject params = new BoxGenericJsonObject();
         params.addValue('name', groupName);
             if(provenance !=null) {
-            params.addValue('provenance', provenance); 
+            params.addValue('provenance', provenance);
         }
         if(externalSyncIdentifier !=null) {
             params.addValue('external_sync_identifier', externalSyncIdentifier);
@@ -133,8 +133,8 @@ public class BoxGroup extends BoxCollaborator {
     }
 
     /**
-     * Deletes this group. 
-     * 
+     * Deletes this group.
+     *
      * @return true if group is deleted succesfully, false otherwise.
      */
     public Boolean deleteGroup() {
@@ -149,7 +149,7 @@ public class BoxGroup extends BoxCollaborator {
     }
 
     /**
-     * Informationa about BoxGroup 
+     * Informationa about BoxGroup
      */
     public class Info extends BoxCollaborator.Info {
 
