@@ -484,7 +484,7 @@ public class BoxFolder extends BoxItem{
                     this.permissions = BoxFolder.parsePermission(value);
                 } else if (key == 'can_non_owners_invite') {
                     this.canNonOwnersInvite = Boolean.valueOf(value);
-                } else if (key == 'upload_email') {
+                } else if (key == 'folder_upload_email') {
                     this.uploadEmail = new BoxUploadEmail.Info(value);
                 }
             }
