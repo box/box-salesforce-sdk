@@ -132,6 +132,8 @@ public class BoxFolderTests {
     	
     	System.assertEquals(folderInfo.getValue('id'), folder.getId());
     	System.assertEquals(folderInfo.getValue('id'), folder.getInfo().getValue('id'));
+    	System.assertNotEquals(null, folderInfo.uploadEmail);
+    	System.assertEquals('upload.Picture.k13sdz1@u.box.com', folderinfo.uploadEmail.email);
     }
     
     public static testmethod void testGetApi() {
