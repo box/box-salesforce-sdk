@@ -109,7 +109,7 @@ public class BoxApiRequest {
         request.setEndpoint(this.url);
         request.setTimeout(this.timeout);
         if (this.api != null) {
-            if (this.shouldAuthenticate) {
+            if (this.api.canAuthenticate && this.shouldAuthenticate) {
                 request.setHeader('Authorization', 'Bearer ' + this.api.getAccessToken());
             }
             request.setHeader('User-Agent', this.api.getUserAgent());
