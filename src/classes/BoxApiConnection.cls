@@ -36,6 +36,17 @@ public virtual class BoxApiConnection {
     public Long lastRefresh {get; set;}
     public Long expires {get; set;}
 
+    public Boolean canAuthenticate {get; set;}
+	
+    public static BoxApiConnection withNamedCredentials(String namedCredential, String uploadNamedCredential) {
+        BoxApiConnection api = new BoxApiConnection(null, null, null, null);
+        api.setAutoRefresh(false);
+        api.setBaseUrl(namedCredential);
+        api.setBaseUploadUrl(uploadNamedCredential);
+        api.canAuthenticate = false;
+        return api;
+    }
+    
     public BoxApiConnection(String accessToken) {
         this(null, null, accessToken, null);
     }
@@ -63,6 +74,7 @@ public virtual class BoxApiConnection {
         this.setUserAgent('Box Apex SDK v1.0.0');
         this.setLastRefresh(0);
         this.setExpires(0);
+	this.canAuthenticate = true;
     }
 
     public virtual void authenticate(String authCode) {
