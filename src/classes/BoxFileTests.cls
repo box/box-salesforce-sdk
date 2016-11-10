@@ -227,4 +227,18 @@ public class BoxFileTests {
 
       System.assertEquals('10559150999', fileInfo.getValue('id') );
     }
+
+    public static testmethod void testPermanentlyDeleteFile() {
+       String mockResponseBody = '{}';
+       Test.setMock(HttpCalloutMock.class, new BoxTestMockCallout(mockResponseBody, 'No Content', 204));
+
+       BoxApiConnection api = new BoxApiConnection('accesstoken');
+       BoxFile fileToDeletePermanently = new BoxFile(api, '5000948880');
+
+       Test.startTest();
+       Boolean deleteFileResult = fileToDeletePermanently.permanentlyDeleteFile();
+       Test.stopTest();
+
+       System.assertEquals(true, permanentlyDeleteFile);
+   }
 }

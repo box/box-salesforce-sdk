@@ -17,7 +17,7 @@ public class BoxFile extends BoxItem {
     private static String FILE_INFO_URL = 'files/{0}';
     private static String GET_COMMENTS_URL = 'files/{0}/comments';
     private static String GET_VERSIONS_URL = 'files/{0}/versions';
-    private static String GET_TRASH_URL = 'files/{0}/trash';
+    private static String FILE_TRASH_URL = 'files/{0}/trash';
     private static string ADD_COMMENT_URL =  'comments';
     private static string PREVIEW_LINK_URL = '/files/{0}?fields=expiring_embed_link';
 
@@ -247,6 +247,17 @@ public class BoxFile extends BoxItem {
         return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.deleteFile', new set<Integer> {204});
     }
 
+    public Boolean permanentlyDeleteFile(string eTag){
+      String url this.api.baseUrl + String.format(FILES_TRASH_URL, new String[] {this.getId()});
+      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+
+      request.setTimeout(this.api.timeout);
+      request.addJsonContentTypeHeader();
+
+      HttpResponse response = request.send();
+      return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.permanentlyDeleteFile', new set<Integer>{204});
+    }
+
     /**
      * Gets file from trash, with the Box file ID passed in
      *
@@ -254,7 +265,7 @@ public class BoxFile extends BoxItem {
      * @return      a Box File that has been retrieved from trash
      */
     public BoxFile.Info getTrashedFile(){
-      String url = this.api.baseUrl + String.format(GET_TRASH_URL, new String[] {this.getId()});
+      String url = this.api.baseUrl + String.format(FILES_TRASH_URL, new String[] {this.getId()});
       BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
 
       request.setTimeout(this.api.timeout);
