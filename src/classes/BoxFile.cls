@@ -248,6 +248,22 @@ public class BoxFile extends BoxItem {
     }
 
     /**
+     * Permanently delete this file, this will delete this item from Box
+     *
+     * @return      true if file is deleted succesfully from trash, false otherwise
+     */
+    public Boolean permanentlyDeleteFile(){
+      String url this.api.baseUrl + String.format(FILES_TRASH_URL, new String[] {this.getId()});
+      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+
+      request.setTimeout(this.api.timeout);
+      request.addJsonContentTypeHeader();
+
+      HttpResponse response = request.send();
+      return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.permanentlyDeleteFile', new set<Integer>{204});
+    }
+
+    /**
      * Gets file from trash, with the Box file ID passed in
      *
      * @return      a Box File that has been retrieved from trash
