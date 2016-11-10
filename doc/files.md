@@ -76,6 +76,17 @@ BoxFile file = new BoxFile(api, 'file-id');
 file.deleteFile();
 ```
 
+Get a trashed File
+------------------
+
+Calling the `getTrashedFile()` method will retrieve a trashed file to the user including
+information about when the file was moved to the trash.
+
+```java
+BoxFile file = new BoxFile(api, 'file-id');
+file.getTrashedFile();
+```
+
 Get Previous Versions of a File
 -------------------------------
 
@@ -108,7 +119,7 @@ Delete a Previous Version of a File
 
 A version of a file can be deleted and moved to the trash by calling
 `deleteFileVersion()`. Since the `file_version` object returned
-from the Box API doesn't include the File Id, you must set it manually 
+from the Box API doesn't include the File Id, you must set it manually
 before deleting a file version.
 
 ```java
