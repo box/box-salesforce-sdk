@@ -247,21 +247,9 @@ public class BoxFile extends BoxItem {
         return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.deleteFile', new set<Integer> {204});
     }
 
-    public Boolean permanentlyDeleteFile(string eTag){
-      String url this.api.baseUrl + String.format(FILES_TRASH_URL, new String[] {this.getId()});
-      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
-
-      request.setTimeout(this.api.timeout);
-      request.addJsonContentTypeHeader();
-
-      HttpResponse response = request.send();
-      return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.permanentlyDeleteFile', new set<Integer>{204});
-    }
-
     /**
      * Gets file from trash, with the Box file ID passed in
      *
-     * @param  id the id of the file the user wishes to retrieve from their trash.
      * @return      a Box File that has been retrieved from trash
      */
     public BoxFile.Info getTrashedFile(){
