@@ -250,7 +250,6 @@ public class BoxFile extends BoxItem {
     /**
      * Gets file from trash, with the Box file ID passed in
      *
-     * @param  id the id of the file the user wishes to retrieve from their trash.
      * @return      a Box File that has been retrieved from trash
      */
     public BoxFile.Info getTrashedFile(){
