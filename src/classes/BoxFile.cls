@@ -264,23 +264,6 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Gets file from trash, with the Box file ID passed in
-     *
-     * @return      a Box File that has been retrieved from trash
-     */
-    public BoxFile.Info getTrashedFile(){
-      String url = this.api.baseUrl + String.format(FILES_TRASH_URL, new String[] {this.getId()});
-      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
-
-      request.setTimeout(this.api.timeout);
-      request.addJsonContentTypeHeader();
-
-      HttpResponse response = request.send();
-      String responseBody BoxApiRequest.ensureBoxResourceResponseBody(response, 'BoxFile.getTrashedFile', new set<Integer>{200});
-      return new BoxFile.info(responseBody);
-    }
-
-    /**
      * Renames this file.
      *
      * @param newName the new name of the file.

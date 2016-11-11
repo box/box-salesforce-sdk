@@ -214,20 +214,6 @@ public class BoxFileTests {
         System.assertEquals('https://blosserdemoaccount.box.com/s/7mcmdlavtye5o5i0ue8xmtwh2sx5bv8p', sharedLinkInfo.getValue('url'));
     }
 
-    public static testmethod void testGetTrashedFile(){
-      String mockResponseBody = BoxTestJsonResponseFactory.BOXFILE_GET_TRASHED_FILE;
-      Test.setMock(HttpCalloutMock.class, new BoxTestMockCallout(mockResponseBody, 'OK', 200));
-
-      BoxApiConnection api = new BoxApiConnection('accesstoken');
-      BoxFile file = new BoxFile(api, '10559150999');
-
-      Test.startTest();
-      BoxFile.Info retrievedTrashedFile = file.getTrashedFile();
-      Test.stopTest();
-
-      System.assertEquals('10559150999', fileInfo.getValue('id') );
-    }
-
     public static testmethod void testPermanentlyDeleteFile() {
        String mockResponseBody = '{}';
        Test.setMock(HttpCalloutMock.class, new BoxTestMockCallout(mockResponseBody, 'No Content', 204));
