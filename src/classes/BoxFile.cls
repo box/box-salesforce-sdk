@@ -17,6 +17,7 @@ public class BoxFile extends BoxItem {
     private static String FILE_INFO_URL = 'files/{0}';
     private static String GET_COMMENTS_URL = 'files/{0}/comments';
     private static String GET_VERSIONS_URL = 'files/{0}/versions';
+    private static String FILE_TRASH_URL = 'files/{0}/trash';
     private static string ADD_COMMENT_URL =  'comments';
     private static string PREVIEW_LINK_URL = '/files/{0}?fields=expiring_embed_link';
 
@@ -89,15 +90,15 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Creates a shared link for this particular file. 
-     * 
+     * Creates a shared link for this particular file.
+     *
      * In order to get default shared link status, set it to an empty access level, i.e. {"shared_link": {}}.
      * In order to disable a shared link, send this same type of PUT request with the value of shared_link set to null, i.e. {"shared_link": null}
      * Please see https://support.box.com/hc/en-us/articles/200520888? for more information on the permissions available for shared links.
      *
      * @param  BoxSharedLink.Info object.
      * @return A full file object containing the updated shared link is returned if the ID is valid and if the update is successful.
-     */ 
+     */
     public BoxSharedLink.Info createSharedLink(BoxSharedLink.Info sharedLinkParams) {
         String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
         BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
@@ -113,8 +114,8 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Retrieves an expiring URL for creating an embedded preview session. 
-     * The URL will expire after 60 seconds and the preview session will expire after 60 minutes. 
+     * Retrieves an expiring URL for creating an embedded preview session.
+     * The URL will expire after 60 seconds and the preview session will expire after 60 minutes.
      * Only the file types listed http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327 are supported at this time.
      *
      * @return preview link url, this link can be used in an embedded iframe to provide a rendering of the file.
@@ -214,8 +215,8 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Deletes this file, discards a file to the trash. 
-     * 
+     * Deletes this file, discards a file to the trash.
+     *
      * @return true if file is deleted succesfully, false otherwise.
      */
     public Boolean deleteFile() {
@@ -223,8 +224,8 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Deletes this file, discards a file to the trash. 
-     * 
+     * Deletes this file, discards a file to the trash.
+     *
      * @param  eTag the etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
      * @return      true if file is deleted succesfully, false otherwise.
      */
@@ -247,8 +248,25 @@ public class BoxFile extends BoxItem {
     }
 
     /**
+     * Gets file from trash, with the Box file ID passed in
+     *
+     * @return      a Box File that has been retrieved from trash
+     */
+    public BoxFile.Info getTrashedFile(){
+      String url = this.api.baseUrl + String.format(FILE_TRASH_URL, new String[] {this.getId()});
+      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+
+      request.setTimeout(this.api.timeout);
+      request.addJsonContentTypeHeader();
+
+      HttpResponse response = request.send();
+      String responseBody BoxApiRequest.ensureBoxResourceResponseBody(response, 'BoxFile.getTrashedFile', new set<Integer>{200});
+      return new BoxFile.info(responseBody);
+    }
+
+    /**
      * Renames this file.
-     * 
+     *
      * @param newName the new name of the file.
      * @return        true if file is renamed succesfully, false otherwise.
      */
@@ -282,7 +300,7 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Gets any previous versions of this file. 
+     * Gets any previous versions of this file.
      *
      * @return a list of previous file versions.
      */
@@ -332,6 +350,8 @@ public class BoxFile extends BoxItem {
 
         return BoxComment.addComment(this.api, url, commentInfo);
     }
+
+    public Box
 
     /**
      * Infrmation about BoxFile
