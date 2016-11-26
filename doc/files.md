@@ -76,6 +76,17 @@ BoxFile file = new BoxFile(api, 'file-id');
 file.deleteFile();
 ```
 
+Permanently delete a File
+-------------------------
+
+Calling the `permanentlyDeleteFile()` method will delete an item that is in the trash.
+This item will no longer exist in Box. This action cannot be undone.
+
+```java
+BoxFile file = new BoxFile(api, 'file-id');
+file.permanentlyDeleteFile();
+```
+
 Get a trashed File
 ------------------
 
