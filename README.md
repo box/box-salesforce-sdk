@@ -8,14 +8,7 @@ This is the Box SDK for Salesforce for interacting with the
 
 Quickstart
 ----------
-The SDK can be deployed directly to Sandbox or Developer Orgs by clicking
-<a href="https://githubsfdeploy.herokuapp.com?owner=box&repo=box-salesforce-sdk">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
-</a>
-"Deploy to Salesforce" functionality is not owned or operated by Box.
-
-The SDK is also distributed as an umanaged package.  Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
+The SDK is distributed as an umanaged package.  Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
 * [Production/Developer Package Link][package-production]
 * [Sandbox Package Link][package-sandbox]
 Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
@@ -26,12 +19,12 @@ Tests are always executed when deploying code to a production salesforce org.  T
 
 Support
 -------
-Need to contact us directly? Email oss@box.com and be sure to include the name of this project in the subject.  For questions, please contact us directly rather than opening an issue.
+Questions? Reach out to us at our [Box Developer Forum](https://community.box.com/t5/Box-Developer-Forum/bd-p/DeveloperForum)! 
 
 Copyright and License
 ---------------------
 
-Copyright 2015 Box, Inc. All rights reserved.
+Copyright 2018 Box, Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
