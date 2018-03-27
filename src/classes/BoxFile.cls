@@ -260,7 +260,7 @@ public class BoxFile extends BoxItem {
       request.addJsonContentTypeHeader();
 
       HttpResponse response = request.send();
-      String responseBody BoxApiRequest.ensureBoxResourceResponseBody(response, 'BoxFile.getTrashedFile', new set<Integer>{200});
+      String responseBody = BoxApiRequest.ensureBoxResourceResponseBody(response, 'BoxFile.getTrashedFile', new set<Integer>{200});
       return new BoxFile.info(responseBody);
     }
 
