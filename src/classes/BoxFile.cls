@@ -248,20 +248,22 @@ public class BoxFile extends BoxItem {
     }
 
     /**
-     * Gets file from trash, with the Box file ID passed in
+     * Gets file from trash, with the Box file id passed in
      *
-     * @return      a Box File that has been retrieved from trash
+     * @return  a Box file that has been retrieved from trash
      */
-    public BoxFile.Info getTrashedFile(){
-      String url = this.api.baseUrl + String.format(FILE_TRASH_URL, new String[] {this.getId()});
-      BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+    public BoxFile.Info getTrashedFile() {
+        String url = this.api.baseUrl + String.format(FILE_TRASH_URL, new String[]{this.getId()});
 
-      request.setTimeout(this.api.timeout);
-      request.addJsonContentTypeHeader();
+        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        request.setTimeout(this.api.timeout);
+        request.addJsonContentTypeHeader();
 
-      HttpResponse response = request.send();
-      String responseBody BoxApiRequest.ensureBoxResourceResponseBody(response, 'BoxFile.getTrashedFile', new set<Integer>{200});
-      return new BoxFile.info(responseBody);
+        HttpResponse response = request.send();
+
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getTrashedFile');
+
+        return new BoxFile.Info(responseBody);
     }
 
     /**
@@ -350,8 +352,6 @@ public class BoxFile extends BoxItem {
 
         return BoxComment.addComment(this.api, url, commentInfo);
     }
-
-    public Box
 
     /**
      * Infrmation about BoxFile
