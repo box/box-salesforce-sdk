@@ -219,12 +219,12 @@ public class BoxFileTests {
         Test.setMock(HttpCalloutMock.class, new BoxTestMockCallout(mockResponseBody, 'OK', 200));
 
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxFile file = new BoxFile(api, '10559150999');
+        BoxFile file = new BoxFile(api, '5859258256');
 
         Test.startTest();
         BoxFile.Info retrievedTrashedFile = file.getTrashedFile();
         Test.stopTest();
 
-        System.assertEquals('10559150999', retrievedTrashedFile.getValue('id'));
+        System.assertEquals('5859258256', retrievedTrashedFile.getValue('id'));
     }
 }
