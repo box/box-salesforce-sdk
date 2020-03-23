@@ -160,8 +160,9 @@ You can get a shared link for a folder by calling the
 `createSharedLink(BoxSharedLink.Access, DateTime, BoxSharedLink.Permissions)` method.
 
 ```java
-BoxFolder folder = new BoxFolder(api, 'folder-id');
-SharedLink link = folder.createSharedLink(BoxSharedLink.Access.OPEN, null, permissions);
+BoxFolder folder = new BoxFolder(api, 'folder_id_here');
+BoxSharedLink.Permissions permissions = new BoxSharedLink.Permissions();
+BoxSharedLink.Info linkInfo = folder.createSharedLink(BoxSharedLink.Access.OPEN, null, permissions);
 ```
 
 Share a Folder
