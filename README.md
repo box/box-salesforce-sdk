@@ -1,42 +1,36 @@
-[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges/)
 
-Box SDK for Salesforce
-======================
+# Box Salesforce SDK
 
-This is the Box SDK for Salesforce for interacting with the 
-[Box Content API](https://box-content.readme.io/).
+This is the Salesforce SDK for integrating with the [Box Platform](https://developer.box.com/).
 
-Quickstart
-----------
-The SDK is distributed as an umanaged package.  Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
-* [Production/Developer Package Link][package-production]
-* [Sandbox Package Link][package-sandbox]
-Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
+## Quickstart
 
-Running Tests
--------------
-Tests are always executed when deploying code to a production salesforce org.  To manually run tests from a sandbox or developer org, go to Setup -> Develop -> Apex Classes and click the "Run All Tests" button.
+The SDK can be deployed directly to Sandbox or Developer orgs by clicking:
 
-Support
--------
-Questions? Reach out to us at our [Box Developer Forum](https://community.box.com/t5/Box-Developer-Forum/bd-p/DeveloperForum)! 
+[![Deploy to Salesforce](https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png)](https://githubsfdeploy.herokuapp.com?owner=box&repo=box-salesforce-sdk)
 
-Copyright and License
----------------------
+> "Deploy to Salesforce" functionality is not owned or operated by Box.
 
-Copyright 2018 Box, Inc. All rights reserved.
+The SDK is also distributed as an umanaged package.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+- [Production/Developer Package Link](https://cloud.box.com/Box-Apex-SDK)
+- [Sandbox Package Link](https://cloud.box.com/Box-Apex-SDK-Sandbox)
 
-   http://www.apache.org/licenses/LICENSE-2.0
+> Unmanaged packages can't be upgraded once installed in a Salesforce org so future upgrades will have to be applied by cloning the repo locally and updating classes from your IDE.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## Support
 
-[package-production]:https://cloud.box.com/Box-Apex-SDK
-[package-sandbox]:https://cloud.box.com/Box-Apex-SDK-Sandbox
+Questions?  Reach out to us at our [Box Developer Forum](https://community.box.com/t5/Box-Developer-Forum/bd-p/DeveloperForum)!
+
+## Copyright
+
+Copyright 2020 Box, Inc. All rights reserved.
+
+## License
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
