@@ -21,7 +21,7 @@ public class BoxApiRequest {
     public String body {get; set;}
     public Blob bodyAsBlob {get; set;}
     public long bodyLength {get; set;}
-    private Integer numberOfRedirects {get; set;}
+    @TestVisible private Integer numberOfRedirects {get; set;}
     private Integer numberOfRetries {get; set;}
     public Boolean shouldAuthenticate {get; set;}
 
@@ -141,7 +141,7 @@ public class BoxApiRequest {
         return response;
     }
 
-    private HttpResponse handleRedirect(HttpResponse response) {
+    @TestVisible private HttpResponse handleRedirect(HttpResponse response) {
         if (this.numberOfRedirects >= MAX_REDIRECTS) {
             throw new BoxApiRequestException('The Box API responded with too many redirects.');
         }
@@ -153,14 +153,14 @@ public class BoxApiRequest {
                 response.getHeader(HEADER_LOCATION_LOWER_CASE) :
                 response.getHeader(HEADER_LOCATION_CAPITALIZED);
         } catch (Exception ex) {
-            throw new BoxApiRequestException('Exception occurred when getting redirect Location. ' + ex.getMessage());
+            throw new BoxApiRequestException('Exception occurred when getting redirect location. ' + ex.getMessage());
         }
 
         if (redirect != null) {
             this.url = redirect;
             return this.trySend();
         } else {
-            throw new BoxApiRequestException('Redirect Location was null but the response code from the Box API indicated a redirect.');
+            throw new BoxApiRequestException('Redirect location was null but the response code from the Box API indicated a redirect.');
         }
     }
 

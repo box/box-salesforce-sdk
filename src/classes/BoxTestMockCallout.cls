@@ -1,5 +1,7 @@
 public class BoxTestMockCallout implements HttpCalloutMock
 {
+    public final static String MOCK_REDIRECT_URL = 'http://redirect.com';
+
     private HttpResponse resp;
     private list<HttpResponse> responseList;
     private Integer currentResponse;
@@ -39,7 +41,7 @@ public class BoxTestMockCallout implements HttpCalloutMock
         if (statusCode != null) {
             response.setStatusCode(statusCode);
             if (statusCode == 301 || statusCode == 302) {
-                response.setHeader('Location', 'http://redirect.com');
+                response.setHeader(BoxApiRequest.HEADER_LOCATION_LOWER_CASE, MOCK_REDIRECT_URL);
             }
         }
         return response;
