@@ -23,11 +23,9 @@ The SDK is also distributed as an umanaged package.
 
 Questions?  Reach out to us at our [Box Developer Forum](https://community.box.com/t5/Box-Developer-Forum/bd-p/DeveloperForum)!
 
-## Copyright
+## Copyright and License
 
 Copyright 2020 Box, Inc. All rights reserved.
-
-## License
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at
 
