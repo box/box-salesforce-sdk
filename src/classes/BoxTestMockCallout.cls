@@ -40,8 +40,10 @@ public class BoxTestMockCallout implements HttpCalloutMock
         }
         if (statusCode != null) {
             response.setStatusCode(statusCode);
-            if (statusCode == 301 || statusCode == 302) {
+            if (statusCode == 301) {
                 response.setHeader(BoxApiRequest.HEADER_LOCATION_LOWER_CASE, MOCK_REDIRECT_URL);
+            } else if (statusCode == 302) {
+                response.setHeader(BoxApiRequest.HEADER_LOCATION_CAPITALIZED, MOCK_REDIRECT_URL);
             }
         }
         return response;

@@ -79,7 +79,7 @@ public class BoxApiRequestTests {
         request.setTimeout(500);
 
         HttpResponse responseMock = new HttpResponse();
-        responseMock.setHeader(BoxApiRequest.HEADER_LOCATION_LOWER_CASE, url);
+        responseMock.setHeader(BoxApiRequest.HEADER_LOCATION_LOWER_CASE, BoxTestMockCallout.MOCK_REDIRECT_URL);
 
         Test.startTest();
 
@@ -92,7 +92,7 @@ public class BoxApiRequestTests {
 
     @isTest static void handleRedirectLegacyTest() {
         list<BoxTestMockCallout.MockResponse> responses = new list<BoxTestMockCallout.MockResponse>();
-        BoxTestMockCallout.MockResponse redirectResponse = new BoxTestMockCallout.MockResponse('{"status":"redirect"}', 'REDIRECT', 301);
+        BoxTestMockCallout.MockResponse redirectResponse = new BoxTestMockCallout.MockResponse('{"status":"redirect"}', 'REDIRECT', 302);
         responses.add(redirectResponse);
         BoxTestMockCallout.MockResponse successResponse = new BoxTestMockCallout.MockResponse('{"Status":"success"}', 'OK', 200);
         responses.add(successResponse);
@@ -107,7 +107,7 @@ public class BoxApiRequestTests {
         request.setTimeout(500);
 
         HttpResponse responseMock = new HttpResponse();
-        responseMock.setHeader(BoxApiRequest.HEADER_LOCATION_CAPITALIZED, url);
+        responseMock.setHeader(BoxApiRequest.HEADER_LOCATION_CAPITALIZED, BoxTestMockCallout.MOCK_REDIRECT_URL);
 
         Test.startTest();
 
