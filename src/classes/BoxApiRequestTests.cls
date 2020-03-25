@@ -115,6 +115,6 @@ public class BoxApiRequestTests {
 
         Test.stopTest();
 
-        System.assertEquals(BoxTestMockCallout.MOCK_REDIRECT_URL, request.url, 'Expected request url to be assigned value from response location header');
+        System.assertEquals('something weird', request.url, 'Expected request url to be assigned value from response location header');
     }
 }
