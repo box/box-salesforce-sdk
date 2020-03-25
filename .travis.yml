@@ -6,7 +6,7 @@ env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 
 stages:
-  - name: deploy
+  - name: after_script
     if: branch = master
 
 install:
@@ -28,5 +28,5 @@ install:
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk --checkonly
 
-deploy:
+after_script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk
