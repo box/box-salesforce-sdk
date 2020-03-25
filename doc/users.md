@@ -40,7 +40,7 @@ It Provisions a new app user in an enterprise with additional user information u
 
 Create Enterprise User
 ----------------------
-To create an new Enterprise User call createEnterpriseUser(BoxApiConnection api, String login, String name) 
+To create an new Enterprise User call createEnterpriseUser(BoxApiConnection api, String login, String name)
 It provisions a new user in an enterprise.
 
 ```apex
@@ -138,14 +138,14 @@ BoxFolder.Info folderInfo = user.moveFolderToUser('id#2');
 
 Get User Events
 ---------------
-Use getUserEvents() to get events for a given user. 
+Use getUserEvents() to get events for a given user.
 
 ```apex
 BoxUser user = new BoxUser(api,'id');
 list<BoxEvent.Info> events = user.getUserEvents();
 ```
 Method getUserEvents(String streamPosition, String streamType, Integer numberOfEventsLimit) can also be used to get the events.
-Where 
-  streamPosition (default=0) is the location in the event stream at which you want to start receiving events. 
+Where
+  streamPosition (default=0) is the location in the event stream at which you want to start receiving events.
   streamType (default=all), limits the type of events returned: all: returns everything, changes: returns tree changes, sync:    returns tree changes only for sync folders
   limit (default=100 max=800), limits the number of events returned.
