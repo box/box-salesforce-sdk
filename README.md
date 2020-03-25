@@ -1,4 +1,5 @@
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges/)
+[![Build Status](https://travis-ci.com/box/box-salesforce-sdk.svg?branch=master)](https://travis-ci.com/box/box-salesforce-sdk)
 
 # Box Salesforce SDK
 
