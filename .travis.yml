@@ -23,6 +23,6 @@ install:
 
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk --checkonly
-- if [ "$TRAVIS_BRANCH" = "master" ]; then
+- if [ "$TRAVIS_BRANCH" = "master" AND "$TRAVIS_PULL_REQUEST" = "false" ]; then
     sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk;
   fi
