@@ -1,5 +1,3 @@
-sudo: true
-os: trusty
 cache: false
 
 env:
@@ -23,8 +21,8 @@ install:
 
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk --checkonly
-- if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    echo hi;
+- if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    echo hiya;
   fi
 - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
     sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk;
