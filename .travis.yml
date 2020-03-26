@@ -21,9 +21,6 @@ install:
 
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk --checkonly
-- if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    echo hiya;
-  fi
-- if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+- if [ "$TRAVIS_BRANCH" = "master" ]; then
     sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk;
   fi
