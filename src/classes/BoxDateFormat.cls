@@ -4,12 +4,16 @@
  */
 
 public class BoxDateFormat {
-
     public static DateTime parseBoxDateTimeString(String dateString) {
         if (dateString == null || dateString == '' || dateString == 'null') {
             return null;
         }
-        return (DateTime) json.deserialize('"' + dateString + '"', DateTime.class);
+        return (DateTime) json.deserialize(
+            '"' +
+            dateString +
+            '"',
+            DateTime.class
+        );
     }
 
     public static String getBoxDateTimeString(DateTime dateTimeValue) {

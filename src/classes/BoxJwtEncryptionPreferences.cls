@@ -3,11 +3,13 @@
  */
 
 public class BoxJwtEncryptionPreferences {
-
-    private String publicKeyId {get; set;}
-    private String privateKey {get; set;}
-    private String privateKeyPassword {get; set;}
-    private BoxJwtEncryptionPreferences.EncryptionAlgorithm algorithm {get; set;}
+    private String publicKeyId { get; set; }
+    private String privateKey { get; set; }
+    private String privateKeyPassword { get; set; }
+    private BoxJwtEncryptionPreferences.EncryptionAlgorithm algorithm {
+        get;
+        set;
+    }
 
     public BoxJwtEncryptionPreferences() {
     }
@@ -82,7 +84,9 @@ public class BoxJwtEncryptionPreferences {
      *
      * @param algorithm the encryptionAlgorithm to set.
      */
-    public void setEncryptionAlgorithm(BoxJwtEncryptionPreferences.EncryptionAlgorithm algorithm) {
+    public void setEncryptionAlgorithm(
+        BoxJwtEncryptionPreferences.EncryptionAlgorithm algorithm
+    ) {
         this.algorithm = algorithm;
     }
 
@@ -91,12 +95,10 @@ public class BoxJwtEncryptionPreferences {
          * RSA with SHA 256.
          */
         RSA_SHA_256,
-
         /**
          * RSA with SHA 384.
          */
         RSA_SHA_384,
-
         /**
          * RSA with SHA 512.
          */

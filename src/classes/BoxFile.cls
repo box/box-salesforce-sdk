@@ -4,21 +4,46 @@
  */
 
 public class BoxFile extends BoxItem {
-
     /**
      * An array of all possible file fields.
      */
-    public static final list<String> ALL_FIELDS = new list<String> {'type', 'id', 'sequence_id', 'etag', 'sha1', 'name', 'description',
-        'size', 'path_collection', 'created_at', 'modified_at', 'trashed_at', 'purged_at', 'content_created_at',
-        'content_modified_at', 'created_by', 'modified_by', 'owned_by', 'shared_link', 'parent', 'item_status',
-        'version_number', 'comment_count', 'permissions', 'lock', 'extension', 'is_package', 'file_version'};
+    public static final list<String> ALL_FIELDS = new List<String>{
+        'type',
+        'id',
+        'sequence_id',
+        'etag',
+        'sha1',
+        'name',
+        'description',
+        'size',
+        'path_collection',
+        'created_at',
+        'modified_at',
+        'trashed_at',
+        'purged_at',
+        'content_created_at',
+        'content_modified_at',
+        'created_by',
+        'modified_by',
+        'owned_by',
+        'shared_link',
+        'parent',
+        'item_status',
+        'version_number',
+        'comment_count',
+        'permissions',
+        'lock',
+        'extension',
+        'is_package',
+        'file_version'
+    };
 
     private static String COPY_FILE_URL = 'files/{0}/copy';
     private static String FILE_INFO_URL = 'files/{0}';
     private static String GET_COMMENTS_URL = 'files/{0}/comments';
     private static String GET_VERSIONS_URL = 'files/{0}/versions';
     private static String FILE_TRASH_URL = 'files/{0}/trash';
-    private static string ADD_COMMENT_URL =  'comments';
+    private static string ADD_COMMENT_URL = 'comments';
     private static string PREVIEW_LINK_URL = '/files/{0}?fields=expiring_embed_link';
 
     /**
@@ -46,13 +71,22 @@ public class BoxFile extends BoxItem {
      * @return information about BoxFile
      */
     public BoxFile.Info getFileInfo() {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getFileInfo');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.getFileInfo'
+        );
         return new BoxFile.Info(responseBody);
     }
 
@@ -64,14 +98,23 @@ public class BoxFile extends BoxItem {
      * @return updated information of BoxFile
      */
     public BoxFile.Info updateFileInfo(BoxFile.Info info) {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
         request.setBody(info.getJsonString());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.Info');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.Info'
+        );
         BoxFile.Info fileInfo = new BoxFile.Info(responseBody);
         this.setInfo(fileInfo);
         return fileInfo;
@@ -99,16 +142,27 @@ public class BoxFile extends BoxItem {
      * @param  BoxSharedLink.Info object.
      * @return A full file object containing the updated shared link is returned if the ID is valid and if the update is successful.
      */
-    public BoxSharedLink.Info createSharedLink(BoxSharedLink.Info sharedLinkParams) {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+    public BoxSharedLink.Info createSharedLink(
+        BoxSharedLink.Info sharedLinkParams
+    ) {
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
 
         request.setBody(sharedLinkParams.getJsonString());
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.createSharedLink');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.createSharedLink'
+        );
         BoxFile.Info fileInfo = new BoxFile.Info(responseBody);
         return fileInfo.sharedLink;
     }
@@ -121,17 +175,30 @@ public class BoxFile extends BoxItem {
      * @return preview link url, this link can be used in an embedded iframe to provide a rendering of the file.
      */
     public String getPreviewLink() {
-        String url = this.api.baseUrl + String.format(PREVIEW_LINK_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(PREVIEW_LINK_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
 
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getPreviewLink');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.getPreviewLink'
+        );
 
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-        BoxGenericJsonObject expiringEmbedLinkObject =  new BoxGenericJsonObject(responseObject.getValue('expiring_embed_link'));
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            responseBody
+        );
+        BoxGenericJsonObject expiringEmbedLinkObject = new BoxGenericJsonObject(
+            responseObject.getValue('expiring_embed_link')
+        );
         return expiringEmbedLinkObject.getValue('url');
     }
 
@@ -154,8 +221,14 @@ public class BoxFile extends BoxItem {
      * @return             info about the copied file.
      */
     public override BoxItem.Info copy(BoxFolder destination, String newName) {
-        String url = this.api.baseUrl + String.format(COPY_FILE_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_POST);
+        String url =
+            this.api.baseUrl +
+            String.format(COPY_FILE_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_POST
+        );
 
         BoxFolder.Info parent = new BoxFolder.Info();
         parent.addValue('id', destination.getId());
@@ -171,7 +244,10 @@ public class BoxFile extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.copy');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.copy'
+        );
         return new BoxFile.Info(responseBody);
     }
 
@@ -193,8 +269,14 @@ public class BoxFile extends BoxItem {
      * @return             info about the moved file.
      */
     public override BoxItem.Info move(BoxFolder destination, String newName) {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
 
         BoxFolder.Info parent = new BoxFolder.Info();
         parent.addValue('id', destination.getId());
@@ -210,7 +292,10 @@ public class BoxFile extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.move');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.move'
+        );
         return new BoxFile.Info(responseBody);
     }
 
@@ -230,12 +315,18 @@ public class BoxFile extends BoxItem {
      * @return      true if file is deleted succesfully, false otherwise.
      */
     public Boolean deleteFile(string eTag) {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
 
         BoxFile.Info fileInfo = new BoxFile.Info();
         fileInfo.addValue('id', this.getId());
-        if(eTag != null) {
+        if (eTag != null) {
             fileInfo.addValue('eTag', eTag);
         }
 
@@ -244,7 +335,11 @@ public class BoxFile extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.deleteFile', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxFile.deleteFile',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
@@ -253,15 +348,24 @@ public class BoxFile extends BoxItem {
      * @return  a Box file that has been retrieved from trash
      */
     public BoxFile.Info getTrashedFile() {
-        String url = this.api.baseUrl + String.format(FILE_TRASH_URL, new String[]{this.getId()});
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_TRASH_URL, new List<String>{ this.getId() });
 
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
 
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getTrashedFile');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.getTrashedFile'
+        );
 
         return new BoxFile.Info(responseBody);
     }
@@ -273,12 +377,18 @@ public class BoxFile extends BoxItem {
      * @return        true if file is renamed succesfully, false otherwise.
      */
     public Boolean rename(string newName) {
-        String url = this.api.baseUrl + String.format(FILE_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseUrl +
+            String.format(FILE_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
 
         BoxFile.Info fileInfo = new BoxFile.Info();
         fileInfo.addValue('id', this.getId());
-        if(newName != null) {
+        if (newName != null) {
             fileInfo.addValue('name', newName);
         }
 
@@ -288,7 +398,11 @@ public class BoxFile extends BoxItem {
 
         HttpResponse response = request.send();
 
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.rename', new set<Integer> {200});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxFile.rename',
+            new Set<Integer>{ 200 }
+        );
     }
 
     /**
@@ -297,7 +411,9 @@ public class BoxFile extends BoxItem {
      * @return a list of comments on BoxFile.
      */
     public list<BoxComment.Info> getComments() {
-        String url = this.api.baseUrl + String.format(GET_COMMENTS_URL, new String[] {this.getId()});
+        String url =
+            this.api.baseUrl +
+            String.format(GET_COMMENTS_URL, new List<String>{ this.getId() });
         return BoxComment.getComments(this.api, url);
     }
 
@@ -307,18 +423,31 @@ public class BoxFile extends BoxItem {
      * @return a list of previous file versions.
      */
     public list<BoxFileVersion.Info> getVersions() {
-        String url = this.api.baseUrl + String.format(GET_VERSIONS_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(GET_VERSIONS_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
 
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getVersions');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.getVersions'
+        );
 
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-        list<String> versionEntries = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
-        list<BoxFileVersion.Info> versions = new list<BoxFileVersion.Info>();
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            responseBody
+        );
+        list<String> versionEntries = BoxJsonObject.parseJsonObjectArray(
+            responseObject.getValue('entries')
+        );
+        list<BoxFileVersion.Info> versions = new List<BoxFileVersion.Info>();
         for (String versionEntry : versionEntries) {
             versions.add(new BoxFileVersion.Info(versionEntry));
         }
@@ -335,7 +464,9 @@ public class BoxFile extends BoxItem {
      * @return information about the newly added comment.
      */
     public BoxComment.Info addComment(String message) {
-        String url = this.api.baseUrl + String.format(ADD_COMMENT_URL, new String[] {this.getId()});
+        String url =
+            this.api.baseUrl +
+            String.format(ADD_COMMENT_URL, new List<String>{ this.getId() });
 
         BoxGenericJsonObject itemObject = new BoxGenericJsonObject();
         itemObject.addValue('type', 'file');
@@ -357,7 +488,6 @@ public class BoxFile extends BoxItem {
      * Infrmation about BoxFile
      */
     public class Info extends BoxItem.Info {
-
         public String sha1;
         public String versionNumber;
         public long commentCount;
@@ -414,7 +544,7 @@ public class BoxFile extends BoxItem {
             if (key != null) {
                 if (key == 'sha1') {
                     this.sha1 = value;
-                }else if (key == 'version_number') {
+                } else if (key == 'version_number') {
                     this.versionNumber = value;
                 } else if (key == 'comment_count') {
                     this.commentCount = long.valueOf(value);
@@ -429,7 +559,7 @@ public class BoxFile extends BoxItem {
         }
 
         private BoxFile.Permission parseFilePermissions(String value) {
-             if (value != null) {
+            if (value != null) {
                 if (value == 'can_download') {
                     return BoxFile.Permission.CAN_DOWNLOAD;
                 } else if (value == 'can_upload') {
@@ -447,9 +577,9 @@ public class BoxFile extends BoxItem {
                 } else if (value == 'can_comment') {
                     return BoxFile.Permission.CAN_COMMENT;
                 }
-           }
-           return null;
-       }
+            }
+            return null;
+        }
     }
 
     /**
@@ -460,37 +590,30 @@ public class BoxFile extends BoxItem {
          * The user can download the file.
          */
         CAN_DOWNLOAD,
-
         /**
          * The user can upload new versions of the file.
          */
         CAN_UPLOAD,
-
         /**
          * The user can rename the file.
          */
         CAN_RENAME,
-
         /**
          * The user can delete the file.
          */
         CAN_DELETE,
-
         /**
          * The user can share the file.
          */
         CAN_SHARE,
-
         /**
          * The user can set the access level for shared links to the file.
          */
         CAN_SET_SHARE_ACCESS,
-
         /**
          * The user can preview the file.
          */
         CAN_PREVIEW,
-
         /**
          * The user can comment on the file.
          */

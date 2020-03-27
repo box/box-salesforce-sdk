@@ -15,15 +15,16 @@ public class BoxApiRequest {
     public final list<RequestHeader> headers;
     public final String method;
 
-    public String url {get; set;}
-    public Integer maxRequestAttempts {get; set;}
-    public Integer timeout {get; set;}
-    public String body {get; set;}
-    public Blob bodyAsBlob {get; set;}
-    public long bodyLength {get; set;}
-    @TestVisible private Integer numberOfRedirects {get; set;}
-    private Integer numberOfRetries {get; set;}
-    public Boolean shouldAuthenticate {get; set;}
+    public String url { get; set; }
+    public Integer maxRequestAttempts { get; set; }
+    public Integer timeout { get; set; }
+    public String body { get; set; }
+    public Blob bodyAsBlob { get; set; }
+    public long bodyLength { get; set; }
+    @TestVisible
+    private Integer numberOfRedirects { get; set; }
+    private Integer numberOfRetries { get; set; }
+    public Boolean shouldAuthenticate { get; set; }
 
     public BoxApiRequest(String url, String method) {
         this(null, url, method);
@@ -34,10 +35,13 @@ public class BoxApiRequest {
         this.url = url;
         this.method = method;
         this.shouldAuthenticate = true;
-        this.headers = new list<RequestHeader>();
+        this.headers = new List<RequestHeader>();
 
-        if(api != null && api.getAsUserId() != null && api.getAsUserId() != '')
-        {
+        if (
+            api != null &&
+            api.getAsUserId() != null &&
+            api.getAsUserId() != ''
+        ) {
             this.addHeader('As-User', api.getAsUserId());
         }
 
@@ -64,14 +68,30 @@ public class BoxApiRequest {
 
     public void setMultipartFormBody(Blob fileBody, String fileName) {
         if (fileBody.size() > MAX_CALLOUT_FILE_SIZE) {
-            throw new BoxApiRequestException('File size is too large (' + String.valueOf(fileBody.size()) + ' bytes). The maximum file size is ' + String.valueOf(MAX_CALLOUT_FILE_SIZE) + ' bytes.');
+            throw new BoxApiRequestException(
+                'File size is too large (' +
+                String.valueOf(fileBody.size()) +
+                ' bytes). The maximum file size is ' +
+                String.valueOf(MAX_CALLOUT_FILE_SIZE) +
+                ' bytes.'
+            );
         }
         try {
-            Blob bodyBlob = BoxBase64.buildMultipartFileBody(fileBody, fileName, BOUNDARY);
+            Blob bodyBlob = BoxBase64.buildMultipartFileBody(
+                fileBody,
+                fileName,
+                BOUNDARY
+            );
             this.bodyAsBlob = bodyBlob;
-            this.addHeader('Content-Type', 'multipart/form-data; boundary=' + BOUNDARY);
+            this.addHeader(
+                'Content-Type',
+                'multipart/form-data; boundary=' + BOUNDARY
+            );
         } catch (Exception ex) {
-            throw new BoxApiRequestException('Exception thrown when Base64 Decoding the http request body. ' + ex.getMessage());
+            throw new BoxApiRequestException(
+                'Exception thrown when Base64 Decoding the http request body. ' +
+                ex.getMessage()
+            );
         }
     }
 
@@ -95,7 +115,10 @@ public class BoxApiRequest {
             } catch (BoxApiRequestException bex) {
                 throw bex;
             } catch (Exception ex) {
-                throw new BoxApiRequestException('An unexpected error occurred when trying to make a callout to the Box API. ' + ex.getMessage());
+                throw new BoxApiRequestException(
+                    'An unexpected error occurred when trying to make a callout to the Box API. ' +
+                    ex.getMessage()
+                );
             }
         }
 
@@ -112,13 +135,19 @@ public class BoxApiRequest {
         request.setTimeout(this.timeout);
         if (this.api != null) {
             if (this.shouldAuthenticate) {
-                request.setHeader('Authorization', 'Bearer ' + this.api.getAccessToken());
+                request.setHeader(
+                    'Authorization',
+                    'Bearer ' + this.api.getAccessToken()
+                );
             }
             request.setHeader('User-Agent', this.api.getUserAgent());
         }
         if (this.bodyAsBlob != null) {
             request.setBodyAsBlob(this.bodyAsBlob);
-            this.addHeader('Content-Length', String.valueof(request.getBodyAsBlob().size()));
+            this.addHeader(
+                'Content-Length',
+                String.valueof(request.getBodyAsBlob().size())
+            );
         } else if (this.body != null) {
             request.setBody(this.body);
         }
@@ -133,34 +162,48 @@ public class BoxApiRequest {
         if (isResponseRedirect(response.getStatusCode())) {
             return this.handleRedirect(response);
         } else if (isResponseBadRequest(response.getStatusCode())) {
-            throw new BoxApiRequestException('The Box API responded with a 400 : Bad Request');
+            throw new BoxApiRequestException(
+                'The Box API responded with a 400 : Bad Request'
+            );
         } else if (isResponseNotFound(response.getStatusCode())) {
-            throw new BoxApiRequestException('The Box API responded with a 404 : Not Found');
+            throw new BoxApiRequestException(
+                'The Box API responded with a 404 : Not Found'
+            );
         }
 
         return response;
     }
 
-    @TestVisible private HttpResponse handleRedirect(HttpResponse response) {
+    @TestVisible
+    private HttpResponse handleRedirect(HttpResponse response) {
         if (this.numberOfRedirects >= MAX_REDIRECTS) {
-            throw new BoxApiRequestException('The Box API responded with too many redirects.');
+            throw new BoxApiRequestException(
+                'The Box API responded with too many redirects.'
+            );
         }
         this.numberOfRedirects++;
 
         String redirect;
         try {
-            redirect = String.isNotEmpty(response.getHeader(HEADER_LOCATION_LOWER_CASE)) ?
-                response.getHeader(HEADER_LOCATION_LOWER_CASE) :
-                response.getHeader(HEADER_LOCATION_CAPITALIZED);
+            redirect = String.isNotEmpty(
+                    response.getHeader(HEADER_LOCATION_LOWER_CASE)
+                )
+                ? response.getHeader(HEADER_LOCATION_LOWER_CASE)
+                : response.getHeader(HEADER_LOCATION_CAPITALIZED);
         } catch (Exception ex) {
-            throw new BoxApiRequestException('Exception occurred when getting redirect location. ' + ex.getMessage());
+            throw new BoxApiRequestException(
+                'Exception occurred when getting redirect location. ' +
+                ex.getMessage()
+            );
         }
 
         if (redirect != null) {
             this.url = redirect;
             return this.trySend();
         } else {
-            throw new BoxApiRequestException('Redirect location was null but the response code from the Box API indicated a redirect.');
+            throw new BoxApiRequestException(
+                'Redirect location was null but the response code from the Box API indicated a redirect.'
+            );
         }
     }
 
@@ -200,25 +243,49 @@ public class BoxApiRequest {
 
     private void checkContextForCallout() {
         if (Limits.getLimitCallouts() < 1) {
-            throw new BoxApiRequestException('BoxApiRequest unable to make a callout due to no remaining callouts allowed (Limits.getLimitCallouts() == 0).');
+            throw new BoxApiRequestException(
+                'BoxApiRequest unable to make a callout due to no remaining callouts allowed (Limits.getLimitCallouts() == 0).'
+            );
         }
     }
 
-    public static String getBoxResourceResponseBody(HttpResponse response, String methodName) {
+    public static String getBoxResourceResponseBody(
+        HttpResponse response,
+        String methodName
+    ) {
         if (response == null) {
-            throw new BoxResource.BoxResourceNullResponseException(String.format(BoxResource.NULL_RESPONSE_EXCEPTION_TEMPLATE, new String[] {methodName}));
+            throw new BoxResource.BoxResourceNullResponseException(
+                String.format(
+                    BoxResource.NULL_RESPONSE_EXCEPTION_TEMPLATE,
+                    new List<String>{ methodName }
+                )
+            );
         }
         if (response.getBody() != null) {
             return response.getBody();
         } else {
-            throw new BoxResource.BoxResourceNullBodyException(String.format(BoxResource.NULL_BODY_EXCEPTION_TEMPLATE, new String[] {methodName}));
+            throw new BoxResource.BoxResourceNullBodyException(
+                String.format(
+                    BoxResource.NULL_BODY_EXCEPTION_TEMPLATE,
+                    new List<String>{ methodName }
+                )
+            );
         }
     }
 
-    public static Boolean ensureBoxResourceResponseCode(HttpResponse response, String methodName, set<Integer> statusCodes) {
+    public static Boolean ensureBoxResourceResponseCode(
+        HttpResponse response,
+        String methodName,
+        set<Integer> statusCodes
+    ) {
         if (response == null) {
-            throw new BoxResource.BoxResourceNullResponseException(String.format(BoxResource.NULL_RESPONSE_EXCEPTION_TEMPLATE, new String[] {methodName}));
-        } else if(statusCodes.contains(response.getStatusCode())) {
+            throw new BoxResource.BoxResourceNullResponseException(
+                String.format(
+                    BoxResource.NULL_RESPONSE_EXCEPTION_TEMPLATE,
+                    new List<String>{ methodName }
+                )
+            );
+        } else if (statusCodes.contains(response.getStatusCode())) {
             return true;
         }
         return false;
@@ -228,5 +295,6 @@ public class BoxApiRequest {
         this.addHeader('Content-Type', 'application/json');
     }
 
-    public class BoxApiRequestException extends Exception {}
+    public class BoxApiRequestException extends Exception {
+    }
 }

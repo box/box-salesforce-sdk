@@ -2,8 +2,7 @@
  * Represents a link to a file or folder on Box.
  */
 
-public class BoxSharedLink extends BoxResource{
-
+public class BoxSharedLink extends BoxResource {
     /**
      * Constructs a BoxSharedLink for an item with a given ID.
      *
@@ -26,16 +25,15 @@ public class BoxSharedLink extends BoxResource{
      * Contains information about a shared link.
      */
     public class Info extends BoxResource.Info {
-
-        public String url {get; private set;}
-        public String downloadUrl {get; private set;}
-        public String vanityUrl {get; private set;}
-        public Boolean isPasswordEnabled {get; private set;}
-        public DateTime unsharedAt {get; private set;}
-        public long downloadCount {get; private set;}
-        public long previewCount {get; private set;}
-        public BoxSharedLink.Access access {get; private set;}
-        public BoxSharedLink.Permissions permissions {get; private set;}
+        public String url { get; private set; }
+        public String downloadUrl { get; private set; }
+        public String vanityUrl { get; private set; }
+        public Boolean isPasswordEnabled { get; private set; }
+        public DateTime unsharedAt { get; private set; }
+        public long downloadCount { get; private set; }
+        public long previewCount { get; private set; }
+        public BoxSharedLink.Access access { get; private set; }
+        public BoxSharedLink.Permissions permissions { get; private set; }
 
         /**
          * Constructs an empty Info object.
@@ -80,12 +78,19 @@ public class BoxSharedLink extends BoxResource{
          * @param  effective_access read-only attribute returned in object The access level set by the enterprise administrator.
          *                          This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set
          */
-        public Info(String access, String unsharedAt, String password, String permissions, Boolean canDownload, Boolean canPreview, String effectiveAccess)
-        {
+        public Info(
+            String access,
+            String unsharedAt,
+            String password,
+            String permissions,
+            Boolean canDownload,
+            Boolean canPreview,
+            String effectiveAccess
+        ) {
             super();
             if (access != null) {
                 this.addValue('access', access);
-            } 
+            }
             if (unsharedAt != null) {
                 this.addValue('unshared_at', unsharedAt);
             }
@@ -130,7 +135,9 @@ public class BoxSharedLink extends BoxResource{
                 } else if (key == 'is_password_enabled') {
                     this.isPasswordEnabled = Boolean.valueOf(value);
                 } else if (key == 'unshared_at') {
-                    this.unsharedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.unsharedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'download_count') {
                     this.downloadCount = long.valueOf(value);
                 } else if (key == 'preview_count') {
@@ -148,9 +155,8 @@ public class BoxSharedLink extends BoxResource{
      * Contains permissions fields that can be set on a shared link.
      */
     public class Permissions extends BoxResource.Info {
-
-        public Boolean canDownload {get; private set;}
-        public Boolean canPreview {get; private set;}
+        public Boolean canDownload { get; private set; }
+        public Boolean canPreview { get; private set; }
 
         public Permissions() {
             super();
@@ -159,7 +165,7 @@ public class BoxSharedLink extends BoxResource{
         public Permissions(String jsonString) {
             super(jsonString);
             for (String key : this.children.keySet()) {
-                   this.parseMember(key, this.children.get(key));
+                this.parseMember(key, this.children.get(key));
             }
         }
 
@@ -201,17 +207,14 @@ public class BoxSharedLink extends BoxResource{
          * The default access level for the user or enterprise.
          */
         DEFAULT_ACCESS,
-
         /**
          * The link can be accessed by anyone.
          */
         OPEN,
-
         /**
          * The link can be accessed by other users within the company.
          */
         COMPANY,
-
         /**
          * The link can be accessed by other collaborators.
          */
@@ -229,8 +232,8 @@ public class BoxSharedLink extends BoxResource{
             } else if (value == 'collaborators') {
                 return BoxSharedLink.Access.COLLABORATORS;
             }
-         }
-         return null;
+        }
+        return null;
     }
 
     public static String getAccessAsString(BoxSharedLink.Access value) {

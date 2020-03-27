@@ -3,17 +3,44 @@
  */
 
 public abstract class BoxItem extends BoxResource {
-
     /**
      * An array of all possible file fields.
      */
-    public static final list<String> ALL_FIELDS = new list<String> 
-        {'type', 'id', 'sequence_id', 'etag', 'sha1', 'name', 'description',
-        'size', 'path_collection', 'created_at', 'modified_at', 'trashed_at', 'purged_at', 'content_created_at',
-        'content_modified_at', 'created_by', 'modified_by', 'owned_by', 'shared_link', 'parent', 'item_status',
-        'version_number', 'comment_count', 'permissions', 'lock', 'extension', 'is_package',
-        'folder_upload_email', 'item_collection', 'sync_state', 'has_collaborations', 'can_non_owners_invite',
-        'file_version'};
+    public static final list<String> ALL_FIELDS = new List<String>{
+        'type',
+        'id',
+        'sequence_id',
+        'etag',
+        'sha1',
+        'name',
+        'description',
+        'size',
+        'path_collection',
+        'created_at',
+        'modified_at',
+        'trashed_at',
+        'purged_at',
+        'content_created_at',
+        'content_modified_at',
+        'created_by',
+        'modified_by',
+        'owned_by',
+        'shared_link',
+        'parent',
+        'item_status',
+        'version_number',
+        'comment_count',
+        'permissions',
+        'lock',
+        'extension',
+        'is_package',
+        'folder_upload_email',
+        'item_collection',
+        'sync_state',
+        'has_collaborations',
+        'can_non_owners_invite',
+        'file_version'
+    };
 
     /**
      * Constructs a BoxItem for an item with a given ID.
@@ -25,11 +52,18 @@ public abstract class BoxItem extends BoxResource {
         super(api, id);
     }
 
-    public static BoxItem.Info getSharedItem(BoxApiConnection api, String sharedLink) {
+    public static BoxItem.Info getSharedItem(
+        BoxApiConnection api,
+        String sharedLink
+    ) {
         return getSharedItem(api, sharedLink, null);
     }
 
-    public static BoxItem.Info getSharedItem(BoxApiConnection api, String sharedLink, String password) {
+    public static BoxItem.Info getSharedItem(
+        BoxApiConnection api,
+        String sharedLink,
+        String password
+    ) {
         return null;
     }
 
@@ -72,7 +106,6 @@ public abstract class BoxItem extends BoxResource {
      * Information about BoxItem
      */
     public abstract class Info extends BoxResource.Info {
-
         public String sequenceID;
         public String etag;
         public String name;
@@ -113,7 +146,7 @@ public abstract class BoxItem extends BoxResource {
             if (key != null) {
                 if (key == 'sequence_id') {
                     this.sequenceId = value;
-                }else if (key == 'etag') {
+                } else if (key == 'etag') {
                     this.etag = value;
                 } else if (key == 'name') {
                     this.name = value;
@@ -124,17 +157,27 @@ public abstract class BoxItem extends BoxResource {
                 } else if (key == 'size') {
                     this.size = Double.valueOf(value).longValue();
                 } else if (key == 'created_at') {
-                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'modified_at') {
-                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'trashed_at') {
-                    this.trashedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.trashedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'purged_at') {
                     this.purgedAt = BoxDateFormat.parseBoxDateTimeString(value);
                 } else if (key == 'content_created_at') {
-                    this.contentCreatedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.contentCreatedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'content_modified_at') {
-                    this.contentModifiedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.contentModifiedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'shared_link') {
                     this.sharedLink = new BoxSharedLink.Info(value);
                 } else if (key == 'parent') {
@@ -147,8 +190,10 @@ public abstract class BoxItem extends BoxResource {
 
         private list<BoxFolder.Info> parsePathCollection(String value) {
             BoxGenericJsonObject valueObject = new BoxGenericJsonObject(value);
-            list<String> pathStrings = BoxJsonObject.parseJsonObjectArray(valueObject.getValue('entries'));
-            list<BoxFolder.Info> paths = new list<BoxFolder.Info>();
+            list<String> pathStrings = BoxJsonObject.parseJsonObjectArray(
+                valueObject.getValue('entries')
+            );
+            list<BoxFolder.Info> paths = new List<BoxFolder.Info>();
             for (String path : pathStrings) {
                 paths.add(new BoxFolder.Info(path));
             }

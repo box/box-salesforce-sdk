@@ -7,7 +7,6 @@
  */
 
 public virtual class BoxApiConnection {
-
     public static final Integer DEFAULT_MAX_ATTEMPTS = 3;
     public static final Integer DEFAULT_CALLOUT_TIMEOUT = 60000;
     public static final String HEADER_CONTENT_TYPE = 'Content-Type';
@@ -20,21 +19,21 @@ public virtual class BoxApiConnection {
     public final String clientId;
     public final String clientSecret;
 
-    public String userAgent {get; set;}
-    public String accessToken {get; set;}
-    public String refreshToken {get; set;}
-    public String tokenUrl {get; set;}
-    public String baseUrl {get; set;}
-    public String baseUploadUrl {get; set;}
-    public String asUserId {get; set;}
-	
-    public Boolean autoRefresh {get; set;}
+    public String userAgent { get; set; }
+    public String accessToken { get; set; }
+    public String refreshToken { get; set; }
+    public String tokenUrl { get; set; }
+    public String baseUrl { get; set; }
+    public String baseUploadUrl { get; set; }
+    public String asUserId { get; set; }
 
-    public Integer maxRequestAttempts {get; set;}
-    public Integer timeout {get; set;}
+    public Boolean autoRefresh { get; set; }
 
-    public Long lastRefresh {get; set;}
-    public Long expires {get; set;}
+    public Integer maxRequestAttempts { get; set; }
+    public Integer timeout { get; set; }
+
+    public Long lastRefresh { get; set; }
+    public Long expires { get; set; }
 
     public BoxApiConnection(String accessToken) {
         this(null, null, accessToken, null);
@@ -44,12 +43,21 @@ public virtual class BoxApiConnection {
         this(clientId, clientSecret, null, null);
     }
 
-    public BoxApiConnection(String clientId, String clientSecret, String authCode) {
+    public BoxApiConnection(
+        String clientId,
+        String clientSecret,
+        String authCode
+    ) {
         this(clientId, clientSecret, null, null);
         this.authenticate(authCode);
     }
 
-    public BoxApiConnection(String clientId, String clientSecret, String accessToken, String refreshToken) {
+    public BoxApiConnection(
+        String clientId,
+        String clientSecret,
+        String accessToken,
+        String refreshToken
+    ) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.setAccessToken(accessToken);
@@ -66,23 +74,40 @@ public virtual class BoxApiConnection {
     }
 
     public virtual void authenticate(String authCode) {
-        BoxApiRequest request = new BoxApiRequest(this, this.getTokenUrl(), BoxApiRequest.METHOD_POST);
+        BoxApiRequest request = new BoxApiRequest(
+            this,
+            this.getTokenUrl(),
+            BoxApiRequest.METHOD_POST
+        );
         request.shouldAuthenticate = false;
         request.setTimeout(this.getTimeout());
-        String urlParameters = String.format('grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}', 
-            new String[] {authCode, this.getClientId(), this.getClientSecret()});
+        String urlParameters = String.format(
+            'grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}',
+            new List<String>{
+                authCode,
+                this.getClientId(),
+                this.getClientSecret()
+            }
+        );
         request.setBody(urlParameters);
         request.addHeader(HEADER_CONTENT_TYPE, HEADER_APPLICATION_ENCODED);
 
         HttpResponse response = request.send();
         if (response.getStatus() == 'OK') {
-            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(response.getBody());
+            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(
+                response.getBody()
+            );
             this.setAccessToken(authResponse.getValue('access_token'));
             this.setRefreshToken(authResponse.getValue('refresh_token'));
             this.setLastRefresh(DateTime.now().getTime());
-            this.setExpires(Long.valueOf(authResponse.getValue('expires_in')) * 1000);
+            this.setExpires(
+                Long.valueOf(authResponse.getValue('expires_in')) * 1000
+            );
         } else {
-            throw new BoxApiConnectionException('BoxApiConnection unable to use auth code to generate tokens: ' + response.toString());
+            throw new BoxApiConnectionException(
+                'BoxApiConnection unable to use auth code to generate tokens: ' +
+                response.toString()
+            );
         }
     }
 
@@ -107,26 +132,45 @@ public virtual class BoxApiConnection {
 
     public virtual void refresh() {
         if (!this.canRefresh()) {
-            throw new BoxApiConnectionException('BoxApiConnection unable to refresh access token because it doesn\'t have a refresh token.');
+            throw new BoxApiConnectionException(
+                'BoxApiConnection unable to refresh access token because it doesn\'t have a refresh token.'
+            );
         }
 
-        BoxApiRequest request = new BoxApiRequest(this, this.getTokenUrl(), BoxApiRequest.METHOD_POST);
+        BoxApiRequest request = new BoxApiRequest(
+            this,
+            this.getTokenUrl(),
+            BoxApiRequest.METHOD_POST
+        );
         request.shouldAuthenticate = false;
         request.setTimeout(this.getTimeout());
-        String urlParameters = String.format('grant_type=refresh_token&refresh_token={0}&client_id={1}&client_secret={2}',
-            new String[] {this.getRefreshToken(), this.getClientId(), this.getClientSecret()});
+        String urlParameters = String.format(
+            'grant_type=refresh_token&refresh_token={0}&client_id={1}&client_secret={2}',
+            new List<String>{
+                this.getRefreshToken(),
+                this.getClientId(),
+                this.getClientSecret()
+            }
+        );
         request.setBody(urlParameters);
         request.addHeader(HEADER_CONTENT_TYPE, HEADER_APPLICATION_ENCODED);
 
         HttpResponse response = request.send();
         if (response.getStatus() == 'OK') {
-            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(response.getBody());
+            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(
+                response.getBody()
+            );
             this.setAccessToken(authResponse.getValue('access_token'));
             this.setRefreshToken(authResponse.getValue('refresh_token'));
             this.setLastRefresh(DateTime.now().getTime());
-            this.setExpires(Long.valueOf(authResponse.getValue('expires_in')) * 1000);
+            this.setExpires(
+                Long.valueOf(authResponse.getValue('expires_in')) * 1000
+            );
         } else {
-            throw new BoxApiConnectionException('BoxApiConnection unable to use refresh token to generate new access token: ' + response.toString());
+            throw new BoxApiConnectionException(
+                'BoxApiConnection unable to use refresh token to generate new access token: ' +
+                response.toString()
+            );
         }
     }
 
@@ -181,15 +225,15 @@ public virtual class BoxApiConnection {
     public virtual void setBaseUploadUrl(String baseUploadUrl) {
         this.baseUploadUrl = baseUploadUrl;
     }
-    
+
     public virtual String getAsUserId() {
         return this.asUserId;
     }
-    
+
     public virtual void setAsUserId(String asUserId) {
         this.asUserId = asUserId;
     }
-	
+
     public virtual Boolean getAutoRefresh() {
         return this.autoRefresh;
     }
@@ -230,5 +274,6 @@ public virtual class BoxApiConnection {
         this.expires = expires;
     }
 
-    public class BoxApiConnectionException extends Exception {}
+    public class BoxApiConnectionException extends Exception {
+    }
 }

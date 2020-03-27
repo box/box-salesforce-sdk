@@ -3,7 +3,6 @@
  */
 
 public class BoxGroup extends BoxCollaborator {
-
     private static final String CREATE_GROUP_URL = 'groups';
     private static final String GROUP_INFO_URL = 'groups/{0}';
 
@@ -25,7 +24,10 @@ public class BoxGroup extends BoxCollaborator {
         this.information = (BoxGroup.Info) jsonObject;
     }
 
-    public static BoxGroup.Info createGroup(BoxApiConnection api, String groupName) {
+    public static BoxGroup.Info createGroup(
+        BoxApiConnection api,
+        String groupName
+    ) {
         return createGroup(api, groupName, null, null, null, null, null);
     }
 
@@ -36,32 +38,47 @@ public class BoxGroup extends BoxCollaborator {
      * @param  name the name of the new group.
      * @return      info about the created group.
      */
-    public static BoxGroup.Info createGroup(BoxApiConnection api, String groupName, String provenance, String externalSyncIdentifier, String description, String invitabilityLevel, String memberViewabilityLevel) {
-        BoxApiRequest request = new BoxApiRequest(api, api.baseUrl + CREATE_GROUP_URL, BoxApiRequest.METHOD_POST);
+    public static BoxGroup.Info createGroup(
+        BoxApiConnection api,
+        String groupName,
+        String provenance,
+        String externalSyncIdentifier,
+        String description,
+        String invitabilityLevel,
+        String memberViewabilityLevel
+    ) {
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            api.baseUrl + CREATE_GROUP_URL,
+            BoxApiRequest.METHOD_POST
+        );
         request.setTimeout(api.timeout);
         request.addJsonContentTypeHeader();
 
         BoxGenericJsonObject params = new BoxGenericJsonObject();
         params.addValue('name', groupName);
-        if(provenance !=null) {
+        if (provenance != null) {
             params.addValue('provenance', provenance);
         }
-        if(externalSyncIdentifier !=null) {
+        if (externalSyncIdentifier != null) {
             params.addValue('external_sync_identifier', externalSyncIdentifier);
         }
-        if(description !=null) {
+        if (description != null) {
             params.addValue('description', description);
         }
-        if(invitabilityLevel !=null) {
+        if (invitabilityLevel != null) {
             params.addValue('invitability_level', invitabilityLevel);
         }
-        if(memberViewabilityLevel !=null) {
+        if (memberViewabilityLevel != null) {
             params.addValue('member_viewability_level', memberViewabilityLevel);
         }
 
         request.setBody(params.getJsonString());
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxGroup.create');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxGroup.create'
+        );
         return new BoxGroup.Info(responseBody);
     }
 
@@ -71,13 +88,22 @@ public class BoxGroup extends BoxCollaborator {
      * @return     information about group.
      */
     public BoxGroup.Info getGroup() {
-        String url = this.api.baseUrl + String.format(GROUP_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(GROUP_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxGroup.getGroup');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxGroup.getGroup'
+        );
         return new BoxGroup.Info(responseBody);
     }
 
@@ -88,7 +114,10 @@ public class BoxGroup extends BoxCollaborator {
      * @param groupName name of the group
      * @return          information about group.
      */
-    public static BoxGroup.Info updateGroup(BoxApiConnection api, String groupName) {
+    public static BoxGroup.Info updateGroup(
+        BoxApiConnection api,
+        String groupName
+    ) {
         return updateGroup(api, groupName, null, null, null, null, null);
     }
 
@@ -103,32 +132,47 @@ public class BoxGroup extends BoxCollaborator {
      * @param memberViewabilityLevel all_managed_users, specifies who can view the members of this group.
      * @return                       information about group.
      */
-    public static BoxGroup.Info updateGroup(BoxApiConnection api, String groupName, String provenance, String externalSyncIdentifier, String description, String invitabilityLevel, String memberViewabilityLevel) {
-        BoxApiRequest request = new BoxApiRequest(api, api.baseUrl + GROUP_INFO_URL, BoxApiRequest.METHOD_PUT);
+    public static BoxGroup.Info updateGroup(
+        BoxApiConnection api,
+        String groupName,
+        String provenance,
+        String externalSyncIdentifier,
+        String description,
+        String invitabilityLevel,
+        String memberViewabilityLevel
+    ) {
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            api.baseUrl + GROUP_INFO_URL,
+            BoxApiRequest.METHOD_PUT
+        );
         request.setTimeout(api.timeout);
         request.addJsonContentTypeHeader();
 
         BoxGenericJsonObject params = new BoxGenericJsonObject();
         params.addValue('name', groupName);
-            if(provenance !=null) {
+        if (provenance != null) {
             params.addValue('provenance', provenance);
         }
-        if(externalSyncIdentifier !=null) {
+        if (externalSyncIdentifier != null) {
             params.addValue('external_sync_identifier', externalSyncIdentifier);
         }
-        if(description !=null) {
+        if (description != null) {
             params.addValue('description', description);
         }
-        if(invitabilityLevel !=null) {
+        if (invitabilityLevel != null) {
             params.addValue('invitability_level', invitabilityLevel);
         }
-        if(memberViewabilityLevel !=null) {
+        if (memberViewabilityLevel != null) {
             params.addValue('member_viewability_level', memberViewabilityLevel);
         }
 
         request.setBody(params.getJsonString());
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxGroup.updateGroup');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxGroup.updateGroup'
+        );
         return new BoxGroup.Info(responseBody);
     }
 
@@ -138,21 +182,30 @@ public class BoxGroup extends BoxCollaborator {
      * @return true if group is deleted succesfully, false otherwise.
      */
     public Boolean deleteGroup() {
-        String url = this.api.baseUrl + String.format(GROUP_INFO_URL, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.baseUrl +
+            String.format(GROUP_INFO_URL, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
 
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxFile.deleteGroup', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxFile.deleteGroup',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
      * Informationa about BoxGroup
      */
     public class Info extends BoxCollaborator.Info {
-
         /**
          * Constructs an empty Info object.
          */

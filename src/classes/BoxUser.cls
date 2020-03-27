@@ -3,24 +3,46 @@
  */
 
 public class BoxUser extends BoxCollaborator {
-
     private static final String USER_URL_TEMPLATE = 'users/{0}';
     private static final String GET_ME_URL = 'users/me';
     private static final String USERS_URL_TEMPLATE = 'users';
-    private static final String USER_MEMBERSHIPS_URL_TEMPLATE ='users/{0}/memberships';
+    private static final String USER_MEMBERSHIPS_URL_TEMPLATE = 'users/{0}/memberships';
     private static final String EMAIL_ALIAS_URL_TEMPLATE = 'users/{0}/email_aliases/{1}';
     private static final String EMAIL_ALIASES_URL_TEMPLATE = 'users/{0}/email_aliases';
     private static final String MOVE_FOLDER_TO_USER_TEMPLATE = 'users/{0}/folders/{1}';
-    private static string GET_USER_EVENTS_URL =  '/events?stream_position={0}&stream_type={1}&limit={2}';
+    private static string GET_USER_EVENTS_URL = '/events?stream_position={0}&stream_type={1}&limit={2}';
 
     /**
      * An array of all possible file fields.
      */
-    public static final String[] ALL_FIELDS = new String[] {'type', 'id', 'name', 'login', 'created_at', 'modified_at', 'role',
-        'language', 'timezone', 'space_amount', 'space_used', 'max_upload_size', 'tracking_codes',
-        'can_see_managed_users', 'is_sync_enabled', 'is_external_collab_restricted', 'status', 'job_title', 'phone',
-        'address', 'avatar_url', 'is_exempt_from_device_limits', 'is_exempt_from_login_verification', 'enterprise',
-        'hostname', 'is_platform_access_only'};
+    public static final String[] ALL_FIELDS = new List<String>{
+        'type',
+        'id',
+        'name',
+        'login',
+        'created_at',
+        'modified_at',
+        'role',
+        'language',
+        'timezone',
+        'space_amount',
+        'space_used',
+        'max_upload_size',
+        'tracking_codes',
+        'can_see_managed_users',
+        'is_sync_enabled',
+        'is_external_collab_restricted',
+        'status',
+        'job_title',
+        'phone',
+        'address',
+        'avatar_url',
+        'is_exempt_from_device_limits',
+        'is_exempt_from_login_verification',
+        'enterprise',
+        'hostname',
+        'is_platform_access_only'
+    };
 
     /**
      * Constructs a BoxUser with a given ID.
@@ -46,7 +68,10 @@ public class BoxUser extends BoxCollaborator {
      * @param  name  the name of the user.
      * @return       the created user's info.
      */
-    public static BoxUser.Info createAppUser(BoxApiConnection api, String name) {
+    public static BoxUser.Info createAppUser(
+        BoxApiConnection api,
+        String name
+    ) {
         return createAppUser(api, name, new BoxCreateUserParams());
     }
 
@@ -57,7 +82,11 @@ public class BoxUser extends BoxCollaborator {
      * @param  params additional user information.
      * @return        the created user's info.
      */
-    public static BoxUser.Info createAppUser(BoxApiConnection api, String name, BoxCreateUserParams params) {
+    public static BoxUser.Info createAppUser(
+        BoxApiConnection api,
+        String name,
+        BoxCreateUserParams params
+    ) {
         params.isPlatformAccessOnly = true;
         return createEnterpriseUser(api, null, name, params);
     }
@@ -69,7 +98,11 @@ public class BoxUser extends BoxCollaborator {
      * @param  name  the name of the user.
      * @return       the created user's info.
      */
-    public static BoxUser.Info createEnterpriseUser(BoxApiConnection api, String login, String name) {
+    public static BoxUser.Info createEnterpriseUser(
+        BoxApiConnection api,
+        String login,
+        String name
+    ) {
         return createEnterpriseUser(api, login, name, null);
     }
 
@@ -81,39 +114,75 @@ public class BoxUser extends BoxCollaborator {
      * @param  params additional user information.
      * @return        the created user's info.
      */
-    public static BoxUser.Info createEnterpriseUser(BoxApiConnection api, String login, String name, BoxCreateUserParams params) {
+    public static BoxUser.Info createEnterpriseUser(
+        BoxApiConnection api,
+        String login,
+        String name,
+        BoxCreateUserParams params
+    ) {
         BoxGenericJsonObject requestJson = new BoxGenericJsonObject();
         requestJson.addValue('login', login);
         requestJson.addValue('name', name);
 
         if (params != null) {
             if (params.role != null) {
-                requestJson.addValue('role', BoxUser.getRoleAsString(params.role));
+                requestJson.addValue(
+                    'role',
+                    BoxUser.getRoleAsString(params.role)
+                );
             }
             if (params.status != null) {
-                requestJson.addValue('status', BoxUser.getStatusAsString(params.status));
+                requestJson.addValue(
+                    'status',
+                    BoxUser.getStatusAsString(params.status)
+                );
             }
             requestJson.addValue('language', params.language);
-            requestJson.addValue('is_sync_enabled', String.valueOf(params.isSyncEnabled));
+            requestJson.addValue(
+                'is_sync_enabled',
+                String.valueOf(params.isSyncEnabled)
+            );
             requestJson.addValue('job_title', params.jobTitle);
             requestJson.addValue('phone', params.phone);
             requestJson.addValue('address', params.address);
-            requestJson.addValue('space_amount', String.valueOf(params.spaceAmount));
-            requestJson.addValue('can_see_managed_users', String.valueOf(params.canSeeManagedUsers));
+            requestJson.addValue(
+                'space_amount',
+                String.valueOf(params.spaceAmount)
+            );
+            requestJson.addValue(
+                'can_see_managed_users',
+                String.valueOf(params.canSeeManagedUsers)
+            );
             requestJson.addValue('timezone', params.timezone);
-            requestJson.addValue('is_exempt_from_device_limits', String.valueOf(params.isExemptFromDeviceLimits));
-            requestJson.addValue('is_exempt_from_login_verification', String.valueOf(params.isExemptFromLoginVerification));
-            requestJson.addValue('is_platform_access_only', String.valueOf(params.isPlatformAccessOnly));
+            requestJson.addValue(
+                'is_exempt_from_device_limits',
+                String.valueOf(params.isExemptFromDeviceLimits)
+            );
+            requestJson.addValue(
+                'is_exempt_from_login_verification',
+                String.valueOf(params.isExemptFromLoginVerification)
+            );
+            requestJson.addValue(
+                'is_platform_access_only',
+                String.valueOf(params.isPlatformAccessOnly)
+            );
         }
 
         String url = api.baseUrl + USERS_URL_TEMPLATE;
-        BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_POST);
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            url,
+            BoxApiRequest.METHOD_POST
+        );
         request.setBody(requestJson.getJsonString());
         request.setTimeout(api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.createEnterpriseUser');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.createEnterpriseUser'
+        );
         return new BoxUser.Info(responseBody);
     }
 
@@ -124,12 +193,19 @@ public class BoxUser extends BoxCollaborator {
      */
     public static BoxUser.Info getCurrentUser(BoxApiConnection api) {
         String url = api.baseUrl + GET_ME_URL;
-        BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_GET);
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(api.timeout);
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.getCurrentUser');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.getCurrentUser'
+        );
         return new BoxUser.Info(responseBody);
     }
 
@@ -138,7 +214,9 @@ public class BoxUser extends BoxCollaborator {
      * @param  api the API connection to be used when retrieving the users.
      * @return     a list containing all the enterprise users.
      */
-    public static list<BoxUser.Info> getAllEnterpriseUsers(BoxApiConnection api) {
+    public static list<BoxUser.Info> getAllEnterpriseUsers(
+        BoxApiConnection api
+    ) {
         return getAllEnterpriseUsers(api, null, null);
     }
 
@@ -151,7 +229,11 @@ public class BoxUser extends BoxCollaborator {
      * @param  fields     the fields to retrieve. Leave this out for the standard fields.
      * @return            a list containing all the enterprise users that matches the filter.
      */
-    public static list<BoxUser.Info> getAllEnterpriseUsers(BoxApiConnection api, String filterTerm, list<String> fields) {
+    public static list<BoxUser.Info> getAllEnterpriseUsers(
+        BoxApiConnection api,
+        String filterTerm,
+        list<String> fields
+    ) {
         Integer recordLimit = 1000;
         Integer recordsRetrieved = 0;
         Integer recordCount = recordLimit + 1;
@@ -159,23 +241,42 @@ public class BoxUser extends BoxCollaborator {
         if (fields != null && !fields.isEmpty()) {
             fieldsString = String.join(fields, ',');
         }
-        list<BoxUser.Info> enterpriseUsers = new list<BoxUser.Info>();
+        list<BoxUser.Info> enterpriseUsers = new List<BoxUser.Info>();
 
         while (recordsRetrieved < recordCount) {
-            String url = buildGetEnterpriseUsersUrl(api.baseUrl, filterTerm, fieldsString, recordsRetrieved, recordLimit);
-            BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_GET);
+            String url = buildGetEnterpriseUsersUrl(
+                api.baseUrl,
+                filterTerm,
+                fieldsString,
+                recordsRetrieved,
+                recordLimit
+            );
+            BoxApiRequest request = new BoxApiRequest(
+                api,
+                url,
+                BoxApiRequest.METHOD_GET
+            );
             request.addJsonContentTypeHeader();
             request.setTimeout(api.timeout);
             HttpResponse response = request.send();
-            String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.getAllEnterpriseUsers');
+            String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+                response,
+                'BoxUser.getAllEnterpriseUsers'
+            );
 
-            BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-            Integer totalCount = Integer.valueOf(responseObject.getValue('total_count'));
+            BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+                responseBody
+            );
+            Integer totalCount = Integer.valueOf(
+                responseObject.getValue('total_count')
+            );
             if (totalCount == null) {
                 recordCount = 0;
             } else {
                 recordCount = totalCount;
-                list<String> userJsonStrings = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
+                list<String> userJsonStrings = BoxJsonObject.parseJsonObjectArray(
+                    responseObject.getValue('entries')
+                );
                 for (String userJsonString : userJsonStrings) {
                     BoxUser.Info userInfo = new BoxUser.Info(userJsonString);
                     enterpriseUsers.add(userInfo);
@@ -196,15 +297,24 @@ public class BoxUser extends BoxCollaborator {
         if (fields != null && !fields.isEmpty()) {
             fieldsString = String.join(fields, ',');
         }
-        String url = this.api.baseUrl + String.format(USER_URL_TEMPLATE, new String[] {this.getId()});
+        String url =
+            this.api.baseUrl +
+            String.format(USER_URL_TEMPLATE, new List<String>{ this.getId() });
         if (fieldsString != null) {
             url += '?fields=' + fieldsString;
         }
-        BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_GET);
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.getUser');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.getUser'
+        );
         return new BoxUser.Info(responseBody);
     }
 
@@ -216,19 +326,37 @@ public class BoxUser extends BoxCollaborator {
      * @return a collection of information about the group memberships for this user.
      */
     public list<BoxGroupMembership.Info> getMemberships() {
-        String url = this.api.baseUrl + String.format(USER_MEMBERSHIPS_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(
+                USER_MEMBERSHIPS_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.getMemberships');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.getMemberships'
+        );
 
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-        list<BoxGroupMembership.Info> memberships = new list<BoxGroupMembership.Info>();
-        Integer totalCount = Integer.valueOf(responseObject.getValue('total_count'));
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            responseBody
+        );
+        list<BoxGroupMembership.Info> memberships = new List<BoxGroupMembership.Info>();
+        Integer totalCount = Integer.valueOf(
+            responseObject.getValue('total_count')
+        );
         if (totalCount != null) {
-            list<String> membershipEntries = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
+            list<String> membershipEntries = BoxJsonObject.parseJsonObjectArray(
+                responseObject.getValue('entries')
+            );
             for (String entry : membershipEntries) {
                 memberships.add(new BoxGroupMembership.Info(entry));
             }
@@ -243,8 +371,17 @@ public class BoxUser extends BoxCollaborator {
      * @return       the newly created email alias.
      */
     public BoxEmailAlias.Info addEmailAlias(String email) {
-        String url = this.api.baseUrl + String.format(EMAIL_ALIAS_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_POST);
+        String url =
+            this.api.baseUrl +
+            String.format(
+                EMAIL_ALIAS_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_POST
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
 
@@ -253,7 +390,10 @@ public class BoxUser extends BoxCollaborator {
         request.setBody(requestJson.getJsonString());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.addEmailAlias');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.addEmailAlias'
+        );
         return new BoxEmailAlias.Info(responseBody);
     }
 
@@ -266,13 +406,26 @@ public class BoxUser extends BoxCollaborator {
      * @return true if succesful, false if failed (based on expected status code of 204)
      */
     public Boolean deleteEmailAlias(String aliasId) {
-        String url = this.api.baseUrl + String.format(EMAIL_ALIAS_URL_TEMPLATE, new String[] {this.getId(), aliasId});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.baseUrl +
+            String.format(
+                EMAIL_ALIAS_URL_TEMPLATE,
+                new List<String>{ this.getId(), aliasId }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
 
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxUser.deleteEmailAlias', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxUser.deleteEmailAlias',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
@@ -283,18 +436,36 @@ public class BoxUser extends BoxCollaborator {
      * @return a collection of all the email aliases for this user.
      */
     public list<BoxEmailAlias.Info> getEmailAliases() {
-        String url = this.api.baseUrl + String.format(EMAIL_ALIASES_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseUrl +
+            String.format(
+                EMAIL_ALIASES_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.getEmailAliases');
-        list<BoxEmailAlias.Info> aliases = new list<BoxEmailAlias.Info>();
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-        Integer totalCount = Integer.valueOf(responseObject.getValue('total_count'));
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.getEmailAliases'
+        );
+        list<BoxEmailAlias.Info> aliases = new List<BoxEmailAlias.Info>();
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            responseBody
+        );
+        Integer totalCount = Integer.valueOf(
+            responseObject.getValue('total_count')
+        );
         if (totalCount != null) {
-            list<String> aliasEntries = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
+            list<String> aliasEntries = BoxJsonObject.parseJsonObjectArray(
+                responseObject.getValue('entries')
+            );
             for (String entry : aliasEntries) {
                 aliases.add(new BoxEmailAlias.Info(entry));
             }
@@ -305,18 +476,32 @@ public class BoxUser extends BoxCollaborator {
 
     /**
      * Deletes a user from an enterprise account.
-     * 
+     *
      * @param notifyUser whether or not to send an email notification to the user that their account has been deleted.
      * @param force      whether or not this user should be deleted even if they still own files.
      * @return true if successful, false if failed (based on expected status code of 204)
      */
     public Boolean deleteUser(Boolean notifyUser, Boolean force) {
-        String url = this.api.baseUrl + String.format(USER_URL_TEMPLATE, new String[] {this.getId()}) + '?notify=' + notifyUser + '&force=' + force;
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.baseUrl +
+            String.format(USER_URL_TEMPLATE, new List<String>{ this.getId() }) +
+            '?notify=' +
+            notifyUser +
+            '&force=' +
+            force;
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxUser.deleteUser', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxUser.deleteUser',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
@@ -328,14 +513,23 @@ public class BoxUser extends BoxCollaborator {
      * @return the newly updated user's info
      */
     public BoxUser.Info updateInfo(BoxUser.Info userInfo) {
-        String url = this.api.baseUrl + String.format(USER_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseUrl +
+            String.format(USER_URL_TEMPLATE, new List<String>{ this.getId() });
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
         request.setBody(userInfo.getJsonString());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.updateInfo');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.updateInfo'
+        );
         BoxUser.Info updatedUserInfo = new BoxUser.Info(responseBody);
         this.setInfo(updatedUserInfo);
         return updatedUserInfo;
@@ -354,8 +548,17 @@ public class BoxUser extends BoxCollaborator {
      */
     public BoxFolder.Info moveFolderToUser(String sourceUserId) {
         // Currently the API only supports moving of the root folder (0), hence the hard coded "0"
-        String url = this.api.baseUrl + String.format(MOVE_FOLDER_TO_USER_TEMPLATE, new String[] {sourceUserId, '0'});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseUrl +
+            String.format(
+                MOVE_FOLDER_TO_USER_TEMPLATE,
+                new List<String>{ sourceUserId, '0' }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.timeout);
 
@@ -368,12 +571,27 @@ public class BoxUser extends BoxCollaborator {
         request.setBody(ownedBy.getJsonString());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxUser.moveFolderToUser');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxUser.moveFolderToUser'
+        );
         return new BoxFolder.Info(responseBody);
     }
 
-    private static String buildGetEnterpriseUsersUrl(String baseUrl, String filterTerm, String fields, Integer offset, Integer limitX) {
-        String url = baseUrl + USERS_URL_TEMPLATE + '?limit=' + limitX + '&offset=' + offset;
+    private static String buildGetEnterpriseUsersUrl(
+        String baseUrl,
+        String filterTerm,
+        String fields,
+        Integer offset,
+        Integer limitX
+    ) {
+        String url =
+            baseUrl +
+            USERS_URL_TEMPLATE +
+            '?limit=' +
+            limitX +
+            '&offset=' +
+            offset;
         if (filterTerm != null && filterTerm != '') {
             url += '&filter_term=' + filterTerm;
         }
@@ -384,9 +602,9 @@ public class BoxUser extends BoxCollaborator {
     }
 
     /**
-     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in. 
+     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in.
      * Parameters indicating how many chunks are left as well as the next stream_position are also returned.
-     * 
+     *
      * See also https://box-content.readme.io/reference#event-object
      *
      * @return a collection of events is returned. See the above table for descriptions of the event types.
@@ -396,30 +614,54 @@ public class BoxUser extends BoxCollaborator {
     }
 
     /**
-     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in. 
+     * Use this to get events for a given user. A chunk of event objects is returned for the user based on the parameters passed in.
      * Parameters indicating how many chunks are left as well as the next stream_position are also returned.
-     * 
+     *
      * See also https://box-content.readme.io/reference#event-object
      *
-     * @param streamPosition (default=0), the location in the event stream at which you want to start receiving events. 
+     * @param streamPosition (default=0), the location in the event stream at which you want to start receiving events.
      * Can specify special case ‘now’ to get 0 events and the latest stream position for initialization.
      * @param streamType (default=all), limits the type of events returned: all: returns everything, changes: returns tree changes, sync: returns tree changes only for sync folders
      * @param limit    (default=100 max=800), limits the number of events returned
      * @return a collection of events is returned. See the above table for descriptions of the event types.
      */
-    public list<BoxEvent.Info> getUserEvents(String streamPosition, String streamType, Integer numberOfEventsLimit) {
-        String url = this.api.baseUrl + String.format(GET_USER_EVENTS_URL, new String[] {streamPosition, streamType, String.valueOf(numberOfEventsLimit)});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+    public list<BoxEvent.Info> getUserEvents(
+        String streamPosition,
+        String streamType,
+        Integer numberOfEventsLimit
+    ) {
+        String url =
+            this.api.baseUrl +
+            String.format(
+                GET_USER_EVENTS_URL,
+                new List<String>{
+                    streamPosition,
+                    streamType,
+                    String.valueOf(numberOfEventsLimit)
+                }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
 
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxFile.getUserEvents');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxFile.getUserEvents'
+        );
 
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(responseBody);
-        list<String> eventEntries = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
-        list<BoxEvent.Info> events = new list<BoxEvent.Info>();
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            responseBody
+        );
+        list<String> eventEntries = BoxJsonObject.parseJsonObjectArray(
+            responseObject.getValue('entries')
+        );
+        list<BoxEvent.Info> events = new List<BoxEvent.Info>();
         for (String eventEntry : eventEntries) {
             events.add(new BoxEvent.Info(eventEntry));
         }
@@ -430,28 +672,27 @@ public class BoxUser extends BoxCollaborator {
      * Info about BoxUser
      */
     public class Info extends BoxCollaborator.Info {
-
-        public String login {get; private set;}
-        public Role role {get; private set;}
-        public String language {get; private set;}
-        public String timezone {get; private set;}
-        public long spaceAmount {get; private set;}
-        public long spaceUsed {get; private set;}
-        public long maxUploadSize {get; private set;}
-        public Boolean canSeeManagedUsers {get; private set;}
-        public Boolean isSyncEnabled {get; private set;}
-        public Boolean isExternalCollabRestricted {get; private set;}
-        public Status status {get; private set;}
-        public String jobTitle {get; private set;}
-        public String phone {get; private set;}
-        public String address {get; private set;}
-        public String avatarURL {get; private set;}
-        public Boolean isExemptFromDeviceLimits {get; private set;}
-        public Boolean isExemptFromLoginVerification {get; private set;}
-        public Boolean isPasswordResetRequired {get; private set;}
-        public Boolean isPlatformAccessOnly {get; private set;}
-        public BoxEnterprise.Info enterprise {get; private set;}
-        public String hostname {get; private set;}
+        public String login { get; private set; }
+        public Role role { get; private set; }
+        public String language { get; private set; }
+        public String timezone { get; private set; }
+        public long spaceAmount { get; private set; }
+        public long spaceUsed { get; private set; }
+        public long maxUploadSize { get; private set; }
+        public Boolean canSeeManagedUsers { get; private set; }
+        public Boolean isSyncEnabled { get; private set; }
+        public Boolean isExternalCollabRestricted { get; private set; }
+        public Status status { get; private set; }
+        public String jobTitle { get; private set; }
+        public String phone { get; private set; }
+        public String address { get; private set; }
+        public String avatarURL { get; private set; }
+        public Boolean isExemptFromDeviceLimits { get; private set; }
+        public Boolean isExemptFromLoginVerification { get; private set; }
+        public Boolean isPasswordResetRequired { get; private set; }
+        public Boolean isPlatformAccessOnly { get; private set; }
+        public BoxEnterprise.Info enterprise { get; private set; }
+        public String hostname { get; private set; }
 
         /**
          * Constructs an empty Info object.
@@ -519,7 +760,7 @@ public class BoxUser extends BoxCollaborator {
                     this.isSyncEnabled = Boolean.valueOf(value);
                 } else if (key == 'is_external_collab_restricted') {
                     this.isExternalCollabRestricted = Boolean.valueOf(value);
-                } else if ( key == 'status') {
+                } else if (key == 'status') {
                     this.status = Boxuser.parseStatus(value.toLowerCase());
                 } else if (key == 'job_title') {
                     this.jobTitle = value;
@@ -543,8 +784,7 @@ public class BoxUser extends BoxCollaborator {
                     this.hostname = value;
                 }
             }
-         }
-
+        }
     }
 
     /**
@@ -555,12 +795,10 @@ public class BoxUser extends BoxCollaborator {
          * The user is an administrator of their enterprise.
          */
         ADMIN,
-
         /**
          * The user is a co-administrator of their enterprise.
          */
         COADMIN,
-
         /**
          * The user is a regular user within their enterprise.
          */
@@ -575,17 +813,14 @@ public class BoxUser extends BoxCollaborator {
          * The user's account is active.
          */
         ACTIVE,
-
         /**
          * The user's account is inactive.
          */
         INACTIVE,
-
         /**
          * The user's account cannot delete or edit content.
          */
         CANNOT_DELETE_EDIT,
-
         /**
          * The user's account cannot delete, edit, or upload content.
          */
