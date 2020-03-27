@@ -7,7 +7,9 @@ public abstract class BoxItem extends BoxResource {
      * An array of all possible file fields.
      */
     public static final list<String> ALL_FIELDS = new List<String>{
-        'type', 'id', 'sequence_id',
+        'type',
+        'id',
+        'sequence_id',
         'etag',
         'sha1',
         'name',
