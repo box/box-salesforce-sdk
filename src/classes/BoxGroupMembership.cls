@@ -3,7 +3,6 @@
  */
 
 public class BoxGroupMembership extends BoxResource {
-
     private static final String MEMBERSHIP_URL_TEMPLATE = 'group_memberships/{0}';
 
     /**
@@ -29,60 +28,97 @@ public class BoxGroupMembership extends BoxResource {
      * @return info about this group membership.
      */
     public BoxGroupMembership.Info getMembership() {
-        String url = this.api.getBaseUrl() + String.format(MEMBERSHIP_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.getBaseUrl() +
+            String.format(
+                MEMBERSHIP_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.getTimeout());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxGroupMembership.getMembership');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxGroupMembership.getMembership'
+        );
         return new BoxGroupMembership.Info(responseBody);
     }
 
-
     /**
      * Updates the information about this group membership.
-     * 
+     *
      * @param  infoToUpdate information of BoxGroupMembership to be updated.
      * @return              updated information of BoxGroupMembership.
      */
-    public BoxGroupMembership.Info updateMembership(BoxGroupMembership.Info infoToUpdate) {
-        String url = this.api.getBaseUrl() + String.format(MEMBERSHIP_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+    public BoxGroupMembership.Info updateMembership(
+        BoxGroupMembership.Info infoToUpdate
+    ) {
+        String url =
+            this.api.getBaseUrl() +
+            String.format(
+                MEMBERSHIP_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.getTimeout());
         request.setBody(infoToUpdate.getJsonString());
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxGroupMembership.updateMembership');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxGroupMembership.updateMembership'
+        );
         return new BoxGroupMembership.Info(responseBody);
     }
 
     /**
      * Deletes this group membership.
-     * 
+     *
      * @return true if membership is deleted succesfully, false otherwise.
      */
     public Boolean deleteMembership() {
-        String url = this.api.getBaseUrl() + String.format(MEMBERSHIP_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.getBaseUrl() +
+            String.format(
+                MEMBERSHIP_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(this.api.getTimeout());
 
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxGroupMembership.deleteMembership', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxGroupMembership.deleteMembership',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
      * Information about BoxGroupMembership.
      */
     public class Info extends BoxResource.Info {
-
-        public BoxUser.Info userInfo {get; private set;}
-        public BoxGroup.Info groupInfo {get; private set;}
-        public Role role {get; private set;}
-        public DateTime createdAt {get; private set;}
-        public DateTime modifiedAt {get; private set;}
+        public BoxUser.Info userInfo { get; private set; }
+        public BoxGroup.Info groupInfo { get; private set; }
+        public Role role { get; private set; }
+        public DateTime createdAt { get; private set; }
+        public DateTime modifiedAt { get; private set; }
 
         /**
          * Constructs an empty Info object.
@@ -138,23 +174,26 @@ public class BoxGroupMembership extends BoxResource {
                 } else if (key == 'role') {
                     this.role = BoxGroupMembership.parseRole(value);
                 } else if (key == 'created_at') {
-                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'modified_at') {
-                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 }
             }
         }
     }
 
-   /**
+    /**
      * Enumerates the possible roles that a user can have within a group.
-    */
-   public enum Role {
+     */
+    public enum Role {
         /**
          * The user is an administrator in the group.
          */
         ADMIN,
-
         /**
          * The user is a regular member in the group.
          */
@@ -168,8 +207,8 @@ public class BoxGroupMembership extends BoxResource {
             } else if (value == 'member') {
                 return BoxGroupMembership.Role.MEMBER;
             }
-         }
-         return null;
+        }
+        return null;
     }
 
     public static String getRoleAsString(BoxGroupMembership.Role value) {

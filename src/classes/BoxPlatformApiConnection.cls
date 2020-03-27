@@ -1,13 +1,15 @@
 public class BoxPlatformApiConnection extends BoxApiConnection {
-
     private static final String JWT_AUDIENCE = 'https://api.box.com/oauth2/token';
 
-    public final String entityId {get; private set;}
-    public final BoxPlatform.PlatformEntityType entityType {get; private set;}
-    public final BoxJwtEncryptionPreferences.EncryptionAlgorithm encryptionAlgorithm {get; private set;}
-    public final String publicKeyId {get; private set;}
-    public final String privateKey {get; private set;}
-    public final String privateKeyPassword {get; private set;}
+    public final String entityId { get; private set; }
+    public final BoxPlatform.PlatformEntityType entityType { get; private set; }
+    public final BoxJwtEncryptionPreferences.EncryptionAlgorithm encryptionAlgorithm {
+        get;
+        private set;
+    }
+    public final String publicKeyId { get; private set; }
+    public final String privateKey { get; private set; }
+    public final String privateKeyPassword { get; private set; }
 
     /**
      * Disabling an invalid constructor for Box Platform Edition.
@@ -15,7 +17,9 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      */
     public BoxPlatformApiConnection(String accessToken) {
         super(null);
-        throw new BoxApiConnectionException('This constructor is not available for BoxPlatformApiConnection.');
+        throw new BoxApiConnectionException(
+            'This constructor is not available for BoxPlatformApiConnection.'
+        );
     }
 
     /**
@@ -25,7 +29,9 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      */
     public BoxPlatformApiConnection(String clientID, String clientSecret) {
         super(null);
-        throw new BoxApiConnectionException('This constructor is not available for BoxPlatformApiConnection.');
+        throw new BoxApiConnectionException(
+            'This constructor is not available for BoxPlatformApiConnection.'
+        );
     }
 
     /**
@@ -34,9 +40,15 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @param  clientSecret the client secret to use when exchanging the auth code for an access token.
      * @param  authCode     an auth code obtained from the first half of the OAuth process.
      */
-    public BoxPlatformApiConnection(String clientID, String clientSecret, String authCode) {
+    public BoxPlatformApiConnection(
+        String clientID,
+        String clientSecret,
+        String authCode
+    ) {
         super(null);
-        throw new BoxApiConnectionException('This constructor is not available for BoxPlatformApiConnection.');
+        throw new BoxApiConnectionException(
+            'This constructor is not available for BoxPlatformApiConnection.'
+        );
     }
 
     /**
@@ -46,9 +58,16 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @param  accessToken  an initial access token to use for authenticating with the API.
      * @param  refreshToken an initial refresh token to use when refreshing the access token.
      */
-    public BoxPlatformApiConnection(String clientID, String clientSecret, String accessToken, String refreshToken) {
+    public BoxPlatformApiConnection(
+        String clientID,
+        String clientSecret,
+        String accessToken,
+        String refreshToken
+    ) {
         super(null);
-        throw new BoxApiConnectionException('This constructor is not available for BoxPlatformApiConnection.');
+        throw new BoxApiConnectionException(
+            'This constructor is not available for BoxPlatformApiConnection.'
+        );
     }
 
     /**
@@ -59,11 +78,13 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @param clientSecret         the client secret to use when exchanging the JWT assertion for an access token.
      * @param encryptionPref       the encryption preferences for signing the JWT.
      */
-    public BoxPlatformApiConnection(String entityId, 
-                                            BoxPlatform.PlatformEntityType entityType, 
-                                            String clientId, 
-                                            String clientSecret, 
-                                            BoxJwtEncryptionPreferences encryptionPref) {
+    public BoxPlatformApiConnection(
+        String entityId,
+        BoxPlatform.PlatformEntityType entityType,
+        String clientId,
+        String clientSecret,
+        BoxJwtEncryptionPreferences encryptionPref
+    ) {
         super(clientId, clientSecret);
         this.entityId = entityId;
         this.entityType = entityType;
@@ -82,16 +103,18 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @return a new instance of BoxAPIConnection.
      */
     public static BoxPlatformApiConnection getAppEnterpriseConnection(
-                      String enterpriseId,
-                      String clientId,
-                      String clientSecret,
-                      BoxJwtEncryptionPreferences encryptionPref) {
+        String enterpriseId,
+        String clientId,
+        String clientSecret,
+        BoxJwtEncryptionPreferences encryptionPref
+    ) {
         BoxPlatformApiConnection connection = new BoxPlatformApiConnection(
             enterpriseId,
             BoxPlatform.PlatformEntityType.ENTERPRISE,
             clientId,
             clientSecret,
-            encryptionPref);
+            encryptionPref
+        );
         connection.authenticate();
         return connection;
     }
@@ -105,16 +128,18 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @return a new instance of BoxAPIConnection.
      */
     public static BoxPlatformApiConnection getAppUserConnection(
-                      String userId,
-                      String clientId,
-                      String clientSecret,
-                      BoxJwtEncryptionPreferences encryptionPref) {
+        String userId,
+        String clientId,
+        String clientSecret,
+        BoxJwtEncryptionPreferences encryptionPref
+    ) {
         BoxPlatformApiConnection connection = new BoxPlatformApiConnection(
             userId,
             BoxPlatform.PlatformEntityType.USER,
             clientId,
             clientSecret,
-            encryptionPref);
+            encryptionPref
+        );
         connection.authenticate();
         return connection;
     }
@@ -124,7 +149,9 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      * @param authCode an auth code obtained from the first half of the OAuth process.
      */
     public override void authenticate(String authCode) {
-        throw new BoxApiConnectionException('BoxPlatformApiConnection does not allow authenticating with an auth code.');
+        throw new BoxApiConnectionException(
+            'BoxPlatformApiConnection does not allow authenticating with an auth code.'
+        );
     }
 
     /**
@@ -132,22 +159,38 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
      */
     public void authenticate() {
         String jwtAssertion = this.constructJwtAssertion();
-        String urlParameters = String.format('grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer'
-                                           + '&client_id={0}&client_secret={1}&assertion={2}',
-            new String[] {this.getClientId(), this.getClientSecret(), jwtAssertion});
-        BoxApiRequest request = new BoxApiRequest(this, this.getTokenUrl(), BoxApiRequest.METHOD_POST);
+        String urlParameters = String.format(
+            'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer' +
+            '&client_id={0}&client_secret={1}&assertion={2}',
+            new List<String>{
+                this.getClientId(),
+                this.getClientSecret(),
+                jwtAssertion
+            }
+        );
+        BoxApiRequest request = new BoxApiRequest(
+            this,
+            this.getTokenUrl(),
+            BoxApiRequest.METHOD_POST
+        );
         request.shouldAuthenticate = false;
         request.setBody(urlParameters);
         request.addHeader(HEADER_CONTENT_TYPE, HEADER_APPLICATION_ENCODED);
         request.setTimeout(this.getTimeout());
         HttpResponse response = request.send();
         if (response.getStatus() == 'OK') {
-            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(response.getBody());
+            BoxGenericJsonObject authResponse = new BoxGenericJsonObject(
+                response.getBody()
+            );
             this.setAccessToken(authResponse.getValue('access_token'));
             this.setLastRefresh(DateTime.now().getTime());
-            this.setExpires(Long.valueOf(authResponse.getValue('expires_in')) * 1000);
+            this.setExpires(
+                Long.valueOf(authResponse.getValue('expires_in')) * 1000
+            );
         } else {
-            throw new BoxApiConnectionException('BoxPlatformApiConnection unable to authenticate to generate tokens');
+            throw new BoxApiConnectionException(
+                'BoxPlatformApiConnection unable to authenticate to generate tokens'
+            );
         }
     }
 
@@ -194,11 +237,17 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
         BoxGenericJsonObject claimsObject = new BoxGenericJsonObject();
         claimsObject.addValue('iss', this.getClientId());
         claimsObject.addValue('sub', this.entityId);
-        claimsObject.addValue('box_sub_type', BoxPlatform.getPlatformEntityTypeAsString(this.entityType));
+        claimsObject.addValue(
+            'box_sub_type',
+            BoxPlatform.getPlatformEntityTypeAsString(this.entityType)
+        );
         claimsObject.addValue('aud', JWT_AUDIENCE);
         claimsObject.addValue('jti', this.createJti());
         //Token will be good for the next 10 seconds
-        claimsObject.addValue('exp', String.valueOf((DateTime.now().getTime() / 1000) + 10));
+        claimsObject.addValue(
+            'exp',
+            String.valueOf((DateTime.now().getTime() / 1000) + 10)
+        );
         return this.base64UrlSafe(Blob.valueOf(claimsObject.getJsonString()));
     }
 
@@ -208,8 +257,10 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
     private String constructJwtSignature(String jwtHeader, String jwtClaims) {
         String algorithmName = 'RSA-SHA256';
         Blob input = Blob.valueOf(jwtHeader + '.' + jwtClaims);
-        
-        String modifiedPrivateKey = BoxBase64.prepareStringForBase64Decoding(this.privateKey);
+
+        String modifiedPrivateKey = BoxBase64.prepareStringForBase64Decoding(
+            this.privateKey
+        );
         Blob privateKeyBlob = EncodingUtil.base64Decode(modifiedPrivateKey);
         Blob signed = Crypto.sign(algorithmName, input, privateKeyBlob);
         return this.base64UrlSafe(signed);
@@ -230,9 +281,11 @@ public class BoxPlatformApiConnection extends BoxApiConnection {
         Integer len = validChars.length();
         String randomString = '';
 
-        for(Integer i=0; i<32; i++) {
-            Integer rInt = Integer.valueOf(Math.rint(Math.random()*(len-1)));
-            randomString += validChars.substring(rInt, rInt+1);
+        for (Integer i = 0; i < 32; i++) {
+            Integer rInt = Integer.valueOf(
+                Math.rint(Math.random() * (len - 1))
+            );
+            randomString += validChars.substring(rInt, rInt + 1);
         }
         return randomString;
     }

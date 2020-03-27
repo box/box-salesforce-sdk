@@ -3,7 +3,6 @@
  */
 
 public class BoxEmailAlias extends BoxResource {
-
     /**
      * Constructs a BoxEmailAlias with a given ID.
      *
@@ -26,14 +25,13 @@ public class BoxEmailAlias extends BoxResource {
      * Contains information about a BoxEmailAlias.
      */
     public class Info extends BoxResource.Info {
-
-        public Boolean isConfirmed {get; private set;}
-        public String email {get; private set;}
+        public Boolean isConfirmed { get; private set; }
+        public String email { get; private set; }
 
         /**
          * Constructs an empty Info object.
          */
-        public Info() { 
+        public Info() {
             super();
         }
 

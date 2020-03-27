@@ -3,7 +3,6 @@
  */
 
 public class BoxUploadEmail extends BoxResource {
-
     /**
      * Constructs a BoxUploadEmail for an item with a given ID.
      *
@@ -26,9 +25,8 @@ public class BoxUploadEmail extends BoxResource {
      * Info about BoxUploadEmail
      */
     public class Info extends BoxResource.Info {
-
-        public BoxUploadEmail.Access access {get; private set;}
-        public String email {get; private set;}
+        public BoxUploadEmail.Access access { get; private set; }
+        public String email { get; private set; }
 
         /**
          * Constructs an empty Info object.
@@ -93,7 +91,6 @@ public class BoxUploadEmail extends BoxResource {
          * Anyone can send an upload to this email address.
          */
         OPEN,
-
         /**
          * Only collaborators can send an upload to this email address.
          */

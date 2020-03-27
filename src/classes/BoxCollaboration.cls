@@ -5,7 +5,6 @@
  */
 
 public class BoxCollaboration extends BoxResource {
-
     private static final String COLLABORATIONS_URL_TEMPLATE = 'collaborations';
     private static final String PENDING_COLLABORATIONS_URL = 'collaborations?status=pending';
     private static final String COLLABORATION_URL_TEMPLATE = 'collaborations/{0}';
@@ -34,23 +33,40 @@ public class BoxCollaboration extends BoxResource {
      * @param  api the API connection to use.
      * @return     a collection of pending collaboration infos.
      */
-    public static list<BoxCollaboration.Info> getPendingCollaborations(BoxApiConnection api) {
-        list<BoxCollaboration.Info> pendingCollabs = new list<BoxCollaboration.Info>();
+    public static list<BoxCollaboration.Info> getPendingCollaborations(
+        BoxApiConnection api
+    ) {
+        list<BoxCollaboration.Info> pendingCollabs = new List<BoxCollaboration.Info>();
         String url = api.baseUrl + PENDING_COLLABORATIONS_URL;
 
-        BoxApiRequest request = new BoxApiRequest(api, url, BoxApiRequest.METHOD_GET);
+        BoxApiRequest request = new BoxApiRequest(
+            api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.addJsonContentTypeHeader();
         request.setTimeout(api.timeout);
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxCollaboration.getPendingCollaborations');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxCollaboration.getPendingCollaborations'
+        );
 
-        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(response.getBody());
+        BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
+            response.getBody()
+        );
         if (responseObject.getValue('total_count') != null) {
-            Integer totalCount = Integer.valueOf(responseObject.getValue('total_count'));
-            list<String> pendingCollabStrings = BoxJsonObject.parseJsonObjectArray(responseObject.getValue('entries'));
+            Integer totalCount = Integer.valueOf(
+                responseObject.getValue('total_count')
+            );
+            list<String> pendingCollabStrings = BoxJsonObject.parseJsonObjectArray(
+                responseObject.getValue('entries')
+            );
             for (String collabString : pendingCollabStrings) {
-                BoxCollaboration.Info collab = new BoxCollaboration.Info(collabString);
+                BoxCollaboration.Info collab = new BoxCollaboration.Info(
+                    collabString
+                );
                 pendingCollabs.add(collab);
             }
             System.assertEquals(totalCount, pendingCollabs.size());
@@ -60,17 +76,29 @@ public class BoxCollaboration extends BoxResource {
 
     /**
      * Gets information about this collaboration.
-     * 
+     *
      * @return info about this collaboration.
      */
     public BoxCollaboration.Info getCollaboration() {
-        String url = this.api.baseURl + String.format(COLLABORATION_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_GET);
+        String url =
+            this.api.baseURl +
+            String.format(
+                COLLABORATION_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_GET
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxCollaboration.getCollaboration');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxCollaboration.getCollaboration'
+        );
         return new BoxCollaboration.Info(responseBody);
     }
 
@@ -79,23 +107,39 @@ public class BoxCollaboration extends BoxResource {
      *
      * @param role BoxCollaboration.Role which needs to be updated.
      */
-    public BoxCollaboration.Info updateCollaboration(BoxCollaboration.Role role) {
+    public BoxCollaboration.Info updateCollaboration(
+        BoxCollaboration.Role role
+    ) {
         String roleString = BoxCollaboration.getRoleAsString(role);
         if (roleString == null) {
-            throw new BoxResource.BoxResourceException('BoxCollaboration.Role passed to BoxCollaboration.updateCollaboration was null or invalid.');
+            throw new BoxResource.BoxResourceException(
+                'BoxCollaboration.Role passed to BoxCollaboration.updateCollaboration was null or invalid.'
+            );
         }
 
-        String url = this.api.baseURl + String.format(COLLABORATION_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_PUT);
+        String url =
+            this.api.baseURl +
+            String.format(
+                COLLABORATION_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_PUT
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         BoxGenericJsonObject newAccess = new BoxGenericJsonObject();
         newAccess.addValue('role', roleString);
         request.setBody(newAccess.getJsonString());
-        
+
         HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(response, 'BoxCollaboration.updateCollaboration');
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxCollaboration.updateCollaboration'
+        );
         return new BoxCollaboration.Info(responseBody);
     }
 
@@ -103,54 +147,66 @@ public class BoxCollaboration extends BoxResource {
      * Deletes this collaboration.
      */
     public Boolean deleteCollaboration() {
-        String url = this.api.baseURl + String.format(COLLABORATION_URL_TEMPLATE, new String[] {this.getId()});
-        BoxApiRequest request = new BoxApiRequest(this.api, url, BoxApiRequest.METHOD_DELETE);
+        String url =
+            this.api.baseURl +
+            String.format(
+                COLLABORATION_URL_TEMPLATE,
+                new List<String>{ this.getId() }
+            );
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
-        return BoxApiRequest.ensureBoxResourceResponseCode(response, 'BoxCollaboration.deleteCollaboration', new set<Integer> {204});
+        return BoxApiRequest.ensureBoxResourceResponseCode(
+            response,
+            'BoxCollaboration.deleteCollaboration',
+            new Set<Integer>{ 204 }
+        );
     }
 
     /**
      * Contains information about a BoxCollaboration.
      */
     public class Info extends BoxResource.Info {
+        public BoxUser.Info createdBy { get; private set; }
+        public DateTime createdAt { get; private set; }
+        public DateTime modifiedAt { get; private set; }
+        public DateTime expiresAt { get; private set; }
+        public Status status { get; private set; }
+        public BoxCollaborator.Info accessibleBy { get; private set; }
+        public Role role { get; private set; }
+        public DateTime acknowledgedAt { get; private set; }
+        public BoxFolder.Info item { get; private set; }
 
-        public BoxUser.Info createdBy {get; private set;}
-        public DateTime createdAt {get; private set;}
-        public DateTime modifiedAt {get; private set;}
-        public DateTime expiresAt {get; private set;}
-        public Status status {get; private set;}
-        public BoxCollaborator.Info accessibleBy {get; private set;}
-        public Role role {get; private set;}
-        public DateTime acknowledgedAt {get; private set;}
-        public BoxFolder.Info item {get; private set;}
-
-       /**
-        * Constructs an empty Info object.
-        */
+        /**
+         * Constructs an empty Info object.
+         */
         public Info() {
             super();
         }
 
-       /**
-        * Constructs an Info object by parsing information from a JSON string.
-        *
-        * @param  json the JSON string to parse.
-        */
+        /**
+         * Constructs an Info object by parsing information from a JSON string.
+         *
+         * @param  json the JSON string to parse.
+         */
         public Info(String jsonString) {
             super(jsonString);
             for (String key : this.children.keySet()) {
-                   this.parseMember(key, this.children.get(key));
+                this.parseMember(key, this.children.get(key));
             }
         }
 
-       /**
-        * Constructs an Info object using an already parsed JSON object.
-        *
-        * @param  jsonObject the parsed JSON object.
-        */
+        /**
+         * Constructs an Info object using an already parsed JSON object.
+         *
+         * @param  jsonObject the parsed JSON object.
+         */
         public Info(BoxJsonObject jsonObject) {
             super(jsonObject);
             for (String key : this.children.keySet()) {
@@ -176,40 +232,50 @@ public class BoxCollaboration extends BoxResource {
                 if (key == 'created_by') {
                     this.createdBy = new BoxUser.Info(value);
                 } else if (key == 'created_at') {
-                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'modified_at') {
-                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'expires_at') {
-                    this.expiresAt = BoxDateFormat.parseBoxDateTimeString(value);
-                } else if ( key == 'status') {
-                    this.status = BoxCollaboration.parseStatus(value.toLowerCase());
+                    this.expiresAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
+                } else if (key == 'status') {
+                    this.status = BoxCollaboration.parseStatus(
+                        value.toLowerCase()
+                    );
                 } else if (key == 'accessible_by') {
-                    this.accessibleBy = (BoxCollaborator.Info) BoxResource.parseBoxResource(value);
+                    this.accessibleBy = (BoxCollaborator.Info) BoxResource.parseBoxResource(
+                        value
+                    );
                 } else if (key == 'role') {
                     this.role = BoxCollaboration.parseRole(value);
                 } else if (key == 'acknowledged_at') {
-                    this.acknowledgedAt = BoxDateFormat.parseBoxDateTimeString(value);
-                } else if ( key == 'item') {
+                    this.acknowledgedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
+                } else if (key == 'item') {
                     this.item = new BoxFolder.Info(value);
                 }
             }
         }
-     }
+    }
 
-      /**
-       * Enumerates the possible statuses that a collaboration can have.
-       */
-      public enum Status {
+    /**
+     * Enumerates the possible statuses that a collaboration can have.
+     */
+    public enum Status {
         /**
          * The collaboration has been accepted.
          */
         ACCEPTED,
-
         /**
          * The collaboration is waiting to be accepted or rejected.
          */
         PENDING,
-
         /**
          * The collaboration has been rejected.
          */
@@ -226,28 +292,24 @@ public class BoxCollaboration extends BoxResource {
          * and invite/remove collaborators. They will not be able to delete or move root level folders.
          */
         EDITOR,
-
         /**
          * The viewer role has full read access to a folder. Once invited to a folder, they will be able to preview,
          * download, make comments, and generate shared links.  They will not be able to invite new
          * collaborators, upload, edit, or delete items in the folder.
          */
         VIEWER,
-
         /**
          * The previewer role has limited read access to a folder. They will only be able to preview the items in the
          * folder using the integrated content viewer. They will not be able to share, upload, edit, or delete any
          * content. This role is only available to enterprise accounts.
          */
         PREVIEWER,
-
         /**
          * The uploader has limited write access to a folder. They will only be able to upload and see the names of the
          * items in a folder. They will not able to download or view any content. This role is only available to
          * enterprise accounts.
          */
         UPLOADER,
-
         /**
          * The previewer-uploader role is a combination of previewer and uploader. A user with this access level will be
          * able to preview files using the integrated content viewer as well as upload items into the folder. They will
@@ -255,7 +317,6 @@ public class BoxCollaboration extends BoxResource {
          * accounts.
          */
         PREVIEWER_UPLOADER,
-
         /**
          * The viewer-uploader role is a combination of viewer and uploader. A viewer-uploader has full read access to a
          * folder and limited write access. They are able to preview, download, add comments, generate shared links, and
@@ -263,7 +324,6 @@ public class BoxCollaboration extends BoxResource {
          * items in the folder. This role is only available to enterprise accounts.
          */
         VIEWER_UPLOADER,
-
         /**
          * The co-owner role has all of the functional read/write access that an editor does. This permission level has
          * the added ability of being able to manage users in the folder. A co-owner can add new collaborators, change
@@ -272,7 +332,6 @@ public class BoxCollaboration extends BoxResource {
          * enterprise accounts.
          */
         CO_OWNER,
-
         /**
          * The owner role has all of the functional capabilities of a co-owner. However, they will be able to manipulate
          * the owner of the folder or transfer ownership to another user. This role is only available to enterprise
@@ -331,6 +390,6 @@ public class BoxCollaboration extends BoxResource {
         } else if (value == 'rejected') {
             return BoxCollaboration.Status.REJECTED;
         }
-         return null;
+        return null;
     }
 }

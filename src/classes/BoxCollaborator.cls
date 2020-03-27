@@ -3,7 +3,6 @@
  */
 
 public abstract class BoxCollaborator extends BoxResource {
-
     /**
      * Constructs a BoxCollaborator for a collaborator with a given ID.
      *
@@ -18,9 +17,9 @@ public abstract class BoxCollaborator extends BoxResource {
      * Contains information about a BoxCollaborator.
      */
     public abstract class Info extends BoxResource.Info {
-        public String name {get; protected set;}
-        public DateTime createdAt {get; protected set;}
-        public DateTime modifiedAt {get; protected set;}
+        public String name { get; protected set; }
+        public DateTime createdAt { get; protected set; }
+        public DateTime modifiedAt { get; protected set; }
 
         /**
          * Constructs an empty Info object.
@@ -29,20 +28,20 @@ public abstract class BoxCollaborator extends BoxResource {
             super();
         }
 
-       /**
-        * Constructs an Info object by parsing information from a JSON string.
-        *
-        * @param  json the JSON string to parse.
-        */
+        /**
+         * Constructs an Info object by parsing information from a JSON string.
+         *
+         * @param  json the JSON string to parse.
+         */
         public Info(String jsonString) {
             super(jsonString);
         }
 
-       /**
-        * Constructs an Info object using an already parsed JSON object.
-        *
-        * @param  jsonObject the parsed JSON object.
-        */
+        /**
+         * Constructs an Info object using an already parsed JSON object.
+         *
+         * @param  jsonObject the parsed JSON object.
+         */
         public Info(BoxJsonObject jsonObject) {
             super(jsonObject);
         }
@@ -53,9 +52,13 @@ public abstract class BoxCollaborator extends BoxResource {
                 if (key == 'name') {
                     this.name = value;
                 } else if (key == 'created_at') {
-                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.createdAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 } else if (key == 'modified_at') {
-                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(value);
+                    this.modifiedAt = BoxDateFormat.parseBoxDateTimeString(
+                        value
+                    );
                 }
             }
         }

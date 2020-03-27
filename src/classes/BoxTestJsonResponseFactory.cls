@@ -1,5 +1,4 @@
 public class BoxTestJsonResponseFactory {
-
     public static final String AUTH_PRIVATE_KEY = 'MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyFbGMzgh/9Lk+MefCNao0zOgEgr/L/uvlg52FViMAmxqiHL+ZXLRIErgVp28SmpPiG5a1cL54TxRj5k1fDSKJzlbjrtBAKZNuiuD3HQZTDDCGbn8V2MTURFg/FacpYQXvCu1y60vCF234Z8WzAal+xFv0ASC5xOH2gjky2u83ZjOOgVknkBHe6oecSdDzIqaKmfwRUHBYqeKOAaeTs50+jEe4rQ35LYIZhh71mT/OBxzP5hnrJntjFZdNm6anpH2Q0F31oVquF6RVuNHQPcW6Er/EuoX8ihT6zyey7KC3XqOrvwVsYtZ/bVqVIat9rk0+0dNaMF8BQ4LxdinxHNjtAgMBAAECggEAJUKEs4EoJh195JVseCXiRsnYgZkZqATeNlcjThKHoEjTebeqHtxWm/3Opjkx9CKDbnt3PN8p+uIQ0hYNeiW1ZD/Xzit1Rvdr8WT9TLa17ApQ3M+hp2CDTiY+kHRnVTEHnMwcgj7YyvM7/w03QAzI+cz7sEHMJxIadQkqDongIybVRXQk7bQOH+Qrs2hvgB9KPotekn/ZIyqvsaMrxaizoqfBZ2WRISjGHt2l0+FOA1xR3zjWju8qECBI/bQHTgzqW59KxVkLcBnSIUSDgep8E4AyMqbQdIMoxdHEHEBf8AHhvOd+d10d+EBkgU2oVE+T3iouF9aLXRFKzxWxcl68AQKBgQDqdMxt4eEc8CsI20zcXbit9ojIJ2JG4Ls+6IbPfAarf0PUGaNiSRADxatQ+5IwCixKeg4itLHr0MI7WjIjuXDOFCyoSfsBqUz3I79URRf8jzoYmcUZZ3Joh35UTDzDOiR9YypbHmT2nAhSt2+wGRn5C6LzfLLYS/xo3KfDNjiTHQKBgQDCctjesQ26T31DKvSJe7812w6Rc6sIQTIYg19pGpRGq1rlcrKVwY35QZAJsQHys9RzbT4Ezv4Z4/sRTyx604mPEOvhMky31v1qrFMEJQYoy1OeJzSxrFMrPMCouMARKPSEGmfxuB5Vx/F87mILfKC46NbSrxpK5bt0SV74WmckEQKBgQCPKbbSugTNuNFuXQq33PqyL0Iihfn6satkpHP9Kgygl9uBHg6oK1j+FKuhjZwcfXnCGHmdM50ZE6Ymu9K2Abwh+iuyr0n4H7sBhfCEspQNAiBFeU/jTUmNDn9TViIcS9qQPgdVEGAyPeDPMXefnhRAAJ0F9PT4Ip4EIgjGqMsu+QKBgCVHBzSKFOum2YjK7158DsgwWrafyiYm+Yehh+UKZ2q05xQdzQbQuHsUipyRBqKUvyHxy3X4iNZF0pga6ZgSfcijodTmY7bKzIJqzu94eZnQgRNMyNlXBArB9t1hrdCcXWQF++9nMMmZLz6YJMu29Mj+OlDhqNS6/hjpB//stOFBAoGAaxePMEe3qWBKN17RuMild5NeegYmqy++h2vmR7pJbCsr9h5AiYVi4QGXVYPYuy8KHc9nrOydeu7F5ohJr018jtaPrwupYCZRfkAz1/MFFWcDhXutSPGp0DvijY102Gv5LqeAbAsSArM9t4XpxbVJ5CBahTRqtuPbfpPnVJmvWVs=';
     public static final String AUTH_APP_USER_TOKEN = '{"access_token":"mNr1FrCvOeWiGnwLL0OcTL0Lux5jbyBa","expires_in":4169,"restricted_to":[],"token_type":"bearer"}';
     public static final String AUTH_USER_TOKEN = '{"access_token":"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl","expires_in":3600,"restricted_to":[],"token_type":"bearer","refresh_token":"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR"}';
@@ -13,8 +12,13 @@ public class BoxTestJsonResponseFactory {
 
     public static final String BOXFILE_GET_TRASHED_FILE = '{"type":"file","id":"5859258256","sequence_id":"2","etag":"2","sha1":"4bd9e98652799fc57cf9423e13629c151152ce6c","name":"Screenshot_1_30_13_6_37_PM.png","description":"","size":163265,"path_collection":{"total_count":1,"entries":[{"type":"folder","id":"1","sequence_id":null,"etag":null,"name":"Trash"}]},"created_at":"2013-01-30T18:43:56-08:00","modified_at":"2013-01-30T18:44:00-08:00","trashed_at":"2013-02-07T10:49:34-08:00","purged_at":"2013-03-09T10:49:34-08:00","content_created_at":"2013-01-30T18:43:56-08:00","content_modified_at":"2013-01-30T18:44:00-08:00","created_by":{"type":"user","id":"181757341","name":"sean test","login":"sean+test@box.com"},"modified_by":{"type":"user","id":"181757341","name":"sean test","login":"sean+test@box.com"},"owned_by":{"type":"user","id":"181757341","name":"sean test","login":"sean+test@box.com"},"shared_link":{"url":null,"download_url":null,"vanity_url":null,"is_password_enabled":false,"unshared_at":null,"download_count":0,"preview_count":0,"access":"open","permissions":{"can_download":true,"can_preview":true}},"parent":{"type":"folder","id":"0","sequence_id":null,"etag":null,"name":"All Files"},"item_status":"trashed"}';
 
-    public static String getModifiedResponse(String baseResponse, map<String, String> updatedFields) {
-        BoxGenericJsonObject baseObject = new BoxGenericJsonObject(baseResponse);
+    public static String getModifiedResponse(
+        String baseResponse,
+        map<String, String> updatedFields
+    ) {
+        BoxGenericJsonObject baseObject = new BoxGenericJsonObject(
+            baseResponse
+        );
         for (String key : updatedFields.keySet()) {
             baseObject.addValue(key, updatedFields.get(key));
         }
