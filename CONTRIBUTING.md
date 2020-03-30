@@ -50,7 +50,7 @@ an upstream source for this project, type:
 git remote add upstream git@github.com:box/box-salesforce-sdk.git
 ```
 
-This will come in useful later.
+This will come in handy later.
 
 ### Step 4: Create a feature branch
 
@@ -90,7 +90,7 @@ merge issues.
 ### Step 7: Build and test your changes
 
 Make sure that the code builds and passes all unit tests by deploying your code to
-a Salesforce developer edition org and running all tests from Setup -> Develop -> Apex Classes 
+a Salesforce developer edition org and running all tests from Setup -> Develop -> Apex Classes
 
 ### Step 8: Send the pull request
 
