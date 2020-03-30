@@ -1,10 +1,8 @@
-Contributing
-============
+# Contributing
 
 All contributions are welcome to this project.
 
-Contributor License Agreement
------------------------------
+## Contributor License Agreement
 
 Before a contribution can be merged into this project, please fill out the
 Contributor License Agreement (CLA) located at:
@@ -14,16 +12,14 @@ http://opensource.box.com/cla
 To learn more about CLAs and why they are important to open source projects,
 please see the [Wikipedia entry][1].
 
-How to contribute
------------------
+## How to contribute
 
-* **File an issue** - if you found a bug, want to request an enhancement, or
-  want to implement something (bug fix or feature).
-* **Send a pull request** - if you want to contribute code. Please be sure to
-  file an issue first.
+-   **File an issue** - if you found a bug, want to request an enhancement, or
+    want to implement something (bug fix or feature).
+-   **Send a pull request** - if you want to contribute code. Please be sure to
+    file an issue first.
 
-Pull request best practices
----------------------------
+## Pull request best practices
 
 Following these steps will help ensure that your pull request gets reviewed and
 accepted as quickly as possible.
@@ -51,6 +47,12 @@ git remote add upstream git@github.com:box/box-salesforce-sdk.git
 ```
 
 This will come in handy later.
+
+### Install the development dependencies
+
+```
+npm install
+```
 
 ### Step 4: Create a feature branch
 
