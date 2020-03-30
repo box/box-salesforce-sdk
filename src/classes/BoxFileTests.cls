@@ -246,7 +246,7 @@ public class BoxFileTests {
         System.assertEquals('tigers.jpeg', fileInfo.getValue('name'));
     }
 
-    public static testMethod void testGetPreviewLink() {
+    public static testMethod void testGetExpiringEmbedLink() {
         String mockResponseBody = '{"type": "file", "id": "34122832467", "etag": "1", "expiring_embed_link": {"url": "https://app.box.com/preview/expiring_embed/gvoct6FE!Qz2rDey"}}';
         Test.setMock(
             HttpCalloutMock.class,
@@ -257,12 +257,12 @@ public class BoxFileTests {
         BoxFile file = new BoxFile(api, '5000948880');
 
         Test.startTest();
-        String previewLink = file.getPreviewLink();
+        String expiringEmbedLink = file.getExpiringEmbedLink();
         Test.stopTest();
 
         System.assertEquals(
             'https://app.box.com/preview/expiring_embed/gvoct6FE!Qz2rDey',
-            previewLink
+            expiringEmbedLink
         );
     }
 
