@@ -1,4 +1,6 @@
-cache: false
+language: node_js
+node_js:
+  - "stable"
 
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
@@ -8,6 +10,7 @@ branches:
     - master
 
 install:
+- npm ci
 - openssl aes-256-cbc -K $encrypted_372037a9f72d_key -iv $encrypted_372037a9f72d_iv
   -in assets/server.key.enc -out assets/server.key -d
 - export SFDX_AUTOUPDATE_DISABLE=false
