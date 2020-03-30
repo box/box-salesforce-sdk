@@ -172,7 +172,7 @@ public class BoxFile extends BoxItem {
      * The URL will expire after 60 seconds and the preview session will expire after 60 minutes.
      * Only the file types listed http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327 are supported at this time.
      *
-     * @return preview link url, this link can be used in an embedded iframe to provide a rendering of the file.
+     * @return expiring embed link url, this link can be used in an iframe to provide a rendering of the file.
      */
     public String getExpiringEmbedLink() {
         String url =
