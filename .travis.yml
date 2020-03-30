@@ -1,6 +1,7 @@
 language: node_js
 
-cache: false
+cache:
+  npm: false
 
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
