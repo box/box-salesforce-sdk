@@ -44,7 +44,7 @@ public class BoxFile extends BoxItem {
     private static String GET_VERSIONS_URL = 'files/{0}/versions';
     private static String FILE_TRASH_URL = 'files/{0}/trash';
     private static string ADD_COMMENT_URL = 'comments';
-    private static string PREVIEW_LINK_URL = '/files/{0}?fields=expiring_embed_link';
+    private static string EXPIRING_EMBED_LINK_URL = '/files/{0}?fields=expiring_embed_link';
 
     /**
      * Constructs a BoxFile for a file with a given ID.
@@ -174,10 +174,13 @@ public class BoxFile extends BoxItem {
      *
      * @return preview link url, this link can be used in an embedded iframe to provide a rendering of the file.
      */
-    public String getPreviewLink() {
+    public String getExpiringEmbedLink() {
         String url =
             this.api.baseUrl +
-            String.format(PREVIEW_LINK_URL, new List<String>{ this.getId() });
+            String.format(
+                EXPIRING_EMBED_LINK_URL,
+                new List<String>{ this.getId() }
+            );
         BoxApiRequest request = new BoxApiRequest(
             this.api,
             url,
@@ -190,7 +193,7 @@ public class BoxFile extends BoxItem {
         HttpResponse response = request.send();
         String responseBody = BoxApiRequest.getBoxResourceResponseBody(
             response,
-            'BoxFile.getPreviewLink'
+            'BoxFile.getExpiringEmbedLink'
         );
 
         BoxGenericJsonObject responseObject = new BoxGenericJsonObject(
