@@ -3,6 +3,10 @@ cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 
+branches:
+  only:
+    - master
+
 install:
 - openssl aes-256-cbc -K $encrypted_372037a9f72d_key -iv $encrypted_372037a9f72d_iv
   -in assets/server.key.enc -out assets/server.key -d
@@ -20,7 +24,5 @@ install:
 - sfdx force:auth:jwt:grant --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setdefaultusername --setalias sdk
 
 script:
-- sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk --checkonly
-- if [ "$TRAVIS_BRANCH" = "master" ]; then
-    sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk;
-  fi
+- sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk
+- npx semantic-release
