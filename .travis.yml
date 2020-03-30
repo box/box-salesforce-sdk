@@ -2,15 +2,12 @@ language: node_js
 node_js:
   - "stable"
 
-cache:
-  npm: false
-
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 
-# branches:
-#   only:
-#     - master
+branches:
+  only:
+    - master
 
 install:
 - npm ci
@@ -31,5 +28,4 @@ install:
 
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk
-# - npx semantic-release
-- npx --version
+- npx semantic-release
