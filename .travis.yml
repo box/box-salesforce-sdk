@@ -28,3 +28,4 @@ install:
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk
 # - npx semantic-release
+- npx --version
