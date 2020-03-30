@@ -1,11 +1,13 @@
+language: node_js
+
 cache: false
 
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
 
 install:
 - openssl aes-256-cbc -K $encrypted_372037a9f72d_key -iv $encrypted_372037a9f72d_iv
@@ -25,4 +27,4 @@ install:
 
 script:
 - sfdx force:mdapi:deploy --deploydir src --wait -1 --testlevel RunLocalTests --targetusername sdk
-- npx semantic-release
+# - npx semantic-release
