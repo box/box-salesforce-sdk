@@ -68,7 +68,7 @@ public virtual class BoxApiConnection {
         this.setAutoRefresh(true);
         this.setMaxRequestAttempts(DEFAULT_MAX_ATTEMPTS);
         this.setTimeout(DEFAULT_CALLOUT_TIMEOUT);
-        this.setUserAgent('Box Apex SDK v1.0.0');
+        this.setUserAgent('Box Apex SDK v2');
         this.setLastRefresh(0);
         this.setExpires(0);
     }
