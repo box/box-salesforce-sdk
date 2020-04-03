@@ -1,6 +1,5 @@
 /**
- * Represents a web link (bookmark) on Box. This class can be used to create, read, update, and
- * delete a bookmark.
+ * Represents a web link (bookmark) on Box
  */
 
 public class BoxWebLink extends BoxItem {
@@ -32,8 +31,8 @@ public class BoxWebLink extends BoxItem {
         'item_status'
     };
 
-    private static String WEB_LINK_INFO_URL = 'web_links/{0}';
-    private static String WEB_LINK_TRASH_URL = 'web_links/{0}/trash';
+    private static final String WEB_LINK_URL_PATH = 'web_links/{0}';
+    private static final String TRASH_URL_PATH_SEGMENT = '/trash';
 
     /**
      * Constructs a BoxWebLink for a web link with a given ID.
@@ -55,14 +54,15 @@ public class BoxWebLink extends BoxItem {
     }
 
     /**
-     * Gets information of BoxWebLink.
+     * Get a Web Link's Information
      *
-     * @return information about BoxWebLink
+     * @return the web link's information
      */
     public BoxWebLink.Info getWebLinkInfo() {
         String url =
             this.api.baseUrl +
-            String.format(WEB_LINK_INFO_URL, new List<String>{ this.getId() });
+            String.format(WEB_LINK_URL_PATH, new List<String>{ this.getId() });
+
         BoxApiRequest request = new BoxApiRequest(
             this.api,
             url,
@@ -72,24 +72,59 @@ public class BoxWebLink extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
+
         String responseBody = BoxApiRequest.getBoxResourceResponseBody(
             response,
             'BoxWebLink.getWebLinkInfo'
         );
+
         return new BoxWebLink.Info(responseBody);
     }
 
     /**
-     * Updates the information about this web link with any info fields passed in info object.
+     * Create a Web Link
      *
-     * @param info with info fields to be updated.
+     * @param  info the new web link's info
+     * @return      the created web link's info
+     */
+    public BoxWebLink.Info createWebLink(BoxWebLink.Info info) {
+        String url =
+            this.api.baseUrl +
+            String.format(WEB_LINK_URL_PATH, new List<String>{ '' });
+
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_POST
+        );
+        request.setTimeout(this.api.timeout);
+        request.addJsonContentTypeHeader();
+        request.setBody(info.getJsonString());
+
+        HttpResponse response = request.send();
+
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxWebLink.createWebLink'
+        );
+
+        BoxWebLink.Info webLinkInfo = new BoxWebLink.Info(responseBody);
+        this.setInfo(webLinkInfo);
+
+        return webLinkInfo;
+    }
+
+    /**
+     * Update a Web Link's Information
      *
-     * @return updated information of BoxWebLink
+     * @param info  the web link info to update
+     * @return      the updated web link's info
      */
     public BoxWebLink.Info updateWebLinkInfo(BoxWebLink.Info info) {
         String url =
             this.api.baseUrl +
-            String.format(WEB_LINK_INFO_URL, new List<String>{ this.getId() });
+            String.format(WEB_LINK_URL_PATH, new List<String>{ this.getId() });
+
         BoxApiRequest request = new BoxApiRequest(
             this.api,
             url,
@@ -100,105 +135,38 @@ public class BoxWebLink extends BoxItem {
         request.setBody(info.getJsonString());
 
         HttpResponse response = request.send();
+
         String responseBody = BoxApiRequest.getBoxResourceResponseBody(
             response,
-            'BoxWebLink.Info'
+            'BoxWebLink.updateWebLinkInfo'
         );
+
         BoxWebLink.Info webLinkInfo = new BoxWebLink.Info(responseBody);
         this.setInfo(webLinkInfo);
+
         return webLinkInfo;
     }
 
     /**
-     * Creates a shared link for this particular web link.
+     * Delete a Web Link
      *
-     * This method gets default shared link status, set it to an empty access level. Please see https://support.box.com/hc/en-us/articles/200520888?
-     * for more information on the permissions available for shared links.
-     *
-     * @return A full web link object containing the updated shared link is returned if the ID is valid and if the update is successful.
-     */
-    public BoxSharedLink.Info createSharedLink() {
-        return createSharedLink(new BoxSharedLink.Info());
-    }
-
-    /**
-     * Creates a shared link for this particular web link.
-     *
-     * In order to get default shared link status, set it to an empty access level, i.e. {"shared_link": {}}.
-     * In order to disable a shared link, send this same type of PUT request with the value of shared_link set to null, i.e. {"shared_link": null}
-     * Please see https://support.box.com/hc/en-us/articles/200520888? for more information on the permissions available for shared links.
-     *
-     * @param  BoxSharedLink.Info object.
-     * @return A full web link object containing the updated shared link is returned if the ID is valid and if the update is successful.
-     */
-    public BoxSharedLink.Info createSharedLink(
-        BoxSharedLink.Info sharedLinkParams
-    ) {
-        String url =
-            this.api.baseUrl +
-            String.format(WEB_LINK_INFO_URL, new List<String>{ this.getId() });
-        BoxApiRequest request = new BoxApiRequest(
-            this.api,
-            url,
-            BoxApiRequest.METHOD_PUT
-        );
-
-        request.setBody(sharedLinkParams.getJsonString());
-        request.setTimeout(this.api.timeout);
-        request.addJsonContentTypeHeader();
-
-        HttpResponse response = request.send();
-        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
-            response,
-            'BoxWebLink.createSharedLink'
-        );
-        BoxWebLink.Info webLink = new BoxWebLink.Info(responseBody);
-        return webLink.sharedLink;
-    }
-
-    public override BoxItem.Info copy(BoxFolder destination) {
-        throw new BoxWebLink.BoxWebLinkException(
-            'Copy operation not available for web links'
-        );
-    }
-
-    public override BoxItem.Info copy(BoxFolder destination, String newName) {
-        throw new BoxWebLink.BoxWebLinkException(
-            'Copy operation not available for web links'
-        );
-    }
-
-    public override BoxItem.Info move(BoxFolder destination) {
-        throw new BoxWebLink.BoxWebLinkException(
-            'Move operation not available for web links'
-        );
-    }
-
-    public override BoxItem.Info move(BoxFolder destination, String newName) {
-        throw new BoxWebLink.BoxWebLinkException(
-            'Move operation not available for web links'
-        );
-    }
-
-    /**
-     * Deletes this web link, discards a web link to the trash.
-     *
-     * @return true if web link is deleted succesfully, false otherwise.
+     * @return true if web link is deleted succesfully, false otherwise
      */
     public Boolean deleteWebLink() {
         return this.deleteWebLink(null);
     }
 
     /**
-     * Deletes this web link, discards a web link to the trash.
+     * Delete a Web Link
      *
-     * @param  eTag the etag of the web link can be included as an ‘If-Match’ header to prevent race conditions.
-     * @return      true if web link is deleted succesfully, false otherwise.
+     * @param  eTag the etag can be included as an ‘If-Match’ header to prevent race conditions
+     * @return      true if web link is deleted succesfully, false otherwise
      */
     public Boolean deleteWebLink(string eTag) {
         String url =
             this.api.baseUrl +
-            String.format(WEB_LINK_INFO_URL, new List<String>{ this.getId() });
+            String.format(WEB_LINK_URL_PATH, new List<String>{ this.getId() });
+
         BoxApiRequest request = new BoxApiRequest(
             this.api,
             url,
@@ -216,6 +184,7 @@ public class BoxWebLink extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
+
         return BoxApiRequest.ensureBoxResourceResponseCode(
             response,
             'BoxWebLink.deleteWebLink',
@@ -224,14 +193,17 @@ public class BoxWebLink extends BoxItem {
     }
 
     /**
-     * Gets web link from trash, with the Box web link id passed in
+     * Get a Trashed Web Link's Information
      *
-     * @return  a Box web link that has been retrieved from trash
+     * @return the trashed web link's info
      */
-    public BoxWebLink.Info getTrashedWebLink() {
+    public BoxWebLink.Info getTrashedWebLinkInfo() {
         String url =
             this.api.baseUrl +
-            String.format(WEB_LINK_TRASH_URL, new List<String>{ this.getId() });
+            String.format(
+                WEB_LINK_URL_PATH,
+                new List<String>{ this.getId() + TRASH_URL_PATH_SEGMENT }
+            );
 
         BoxApiRequest request = new BoxApiRequest(
             this.api,
@@ -245,35 +217,58 @@ public class BoxWebLink extends BoxItem {
 
         String responseBody = BoxApiRequest.getBoxResourceResponseBody(
             response,
-            'BoxWebLink.getTrashedWebLink'
+            'BoxWebLink.getTrashedWebLinkInfo'
         );
 
         return new BoxWebLink.Info(responseBody);
     }
 
     /**
-     * Renames this web link.
+     * Restore a Trashed Web Link
      *
-     * @param newName the new name of the web link.
-     * @return        true if web link is renamed succesfully, false otherwise.
+     * @return the restored web link's info
      */
-    public Boolean rename(string newName) {
+    public BoxWebLink.Info restoreTrashedWebLink() {
         String url =
             this.api.baseUrl +
-            String.format(WEB_LINK_INFO_URL, new List<String>{ this.getId() });
+            String.format(WEB_LINK_URL_PATH, new List<String>{ this.getId() });
+
         BoxApiRequest request = new BoxApiRequest(
             this.api,
             url,
-            BoxApiRequest.METHOD_PUT
+            BoxApiRequest.METHOD_POST
+        );
+        request.setTimeout(this.api.timeout);
+        request.addJsonContentTypeHeader();
+
+        HttpResponse response = request.send();
+
+        String responseBody = BoxApiRequest.getBoxResourceResponseBody(
+            response,
+            'BoxWebLink.restoreTrashedWebLink'
         );
 
-        BoxWebLink.Info webLinkInfo = new BoxWebLink.Info();
-        webLinkInfo.addValue('id', this.getId());
-        if (newName != null) {
-            webLinkInfo.addValue('name', newName);
-        }
+        return new BoxWebLink.Info(responseBody);
+    }
 
-        request.setBody(webLinkInfo.getJsonString());
+    /**
+     * Permanently Delete a Web Link
+     *
+     * @return true if web link is permanently deleted succesfully, false otherwise
+     */
+    public Boolean permanentlyDeleteWebLink() {
+        String url =
+            this.api.baseUrl +
+            String.format(
+                WEB_LINK_URL_PATH,
+                new List<String>{ this.getId() + TRASH_URL_PATH_SEGMENT }
+            );
+
+        BoxApiRequest request = new BoxApiRequest(
+            this.api,
+            url,
+            BoxApiRequest.METHOD_DELETE
+        );
         request.setTimeout(this.api.timeout);
         request.addJsonContentTypeHeader();
 
@@ -281,9 +276,25 @@ public class BoxWebLink extends BoxItem {
 
         return BoxApiRequest.ensureBoxResourceResponseCode(
             response,
-            'BoxWebLink.rename',
-            new Set<Integer>{ 200 }
+            'BoxWebLink.permanentlyDeleteWebLink',
+            new Set<Integer>{ 204 }
         );
+    }
+
+    public override BoxItem.Info copy(BoxFolder destination) {
+        throw new BoxWebLinkException('Method Not Implemented');
+    }
+
+    public override BoxItem.Info copy(BoxFolder destination, String newName) {
+        throw new BoxWebLinkException('Method Not Implemented');
+    }
+
+    public override BoxItem.Info move(BoxFolder destination) {
+        throw new BoxWebLinkException('Method Not Implemented');
+    }
+
+    public override BoxItem.Info move(BoxFolder destination, String newName) {
+        throw new BoxWebLinkException('Method Not Implemented');
     }
 
     /**
