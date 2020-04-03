@@ -72,6 +72,7 @@ public class BoxWebLink extends BoxItem {
         request.addJsonContentTypeHeader();
 
         HttpResponse response = request.send();
+
         String responseBody = BoxApiRequest.getBoxResourceResponseBody(
             response,
             'BoxWebLink.getWebLinkInfo'
