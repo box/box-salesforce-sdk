@@ -8,7 +8,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         BoxWebLink.Info info = webLink.getWebLinkInfo();
         Test.stopTest();
 
@@ -44,7 +44,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         BoxWebLink.Info info = webLink.getWebLinkInfo();
         info.addValue('description', 'Example page');
         BoxWebLink.Info updated = webLink.updateWebLinkInfo(info);
@@ -62,7 +62,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         Boolean deleteWebLinkResult = webLink.deleteWebLink();
         Test.stopTest();
 
@@ -77,7 +77,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         BoxWebLink.Info info = webLink.getTrashedWebLinkInfo();
         Test.stopTest();
 
@@ -93,7 +93,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         BoxWebLink.Info info = webLink.restoreTrashedWebLink();
         Test.stopTest();
 
@@ -101,7 +101,7 @@ public class BoxWebLinkTests {
     }
 
     @isTest
-    static void permanentlyDeleteWebLinkTEst() {
+    static void permanentlyDeleteWebLinkTest() {
         Test.setMock(
             HttpCalloutMock.class,
             new BoxTestMockCallout('', 'No Content', 204)
@@ -109,7 +109,7 @@ public class BoxWebLinkTests {
 
         Test.startTest();
         BoxApiConnection api = new BoxApiConnection('accesstoken');
-        BoxWebLink webLink = new BoxWebLink(api, 'web-link-id');
+        BoxWebLink webLink = new BoxWebLink(api, '12398550180');
         Boolean permanentlyDeleteWebLinkResult = webLink.permanentlyDeleteWebLink();
         Test.stopTest();
 

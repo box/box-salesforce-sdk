@@ -21,6 +21,7 @@ public abstract class BoxResource {
      */
     public BoxResource(BoxApiConnection api, String id) {
         this.api = api;
+        validateId(id);
         this.id = id;
     }
 
@@ -94,6 +95,20 @@ public abstract class BoxResource {
 
     public BoxJsonObject getInfo() {
         return (BoxResource.Info) information;
+    }
+
+    /**
+     * Validates the ID of this resource.
+     *
+     * @return void
+     */
+    private void validateId(String id) {
+        if (String.isNotEmpty(id)) {
+            System.assert(
+                id.isNumeric(),
+                'Expect resource to be constructed with a numeric ID'
+            );
+        }
     }
 
     public abstract void setInfo(BoxJsonObject jsonObject);
