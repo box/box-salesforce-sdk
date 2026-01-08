@@ -27,7 +27,7 @@
     "lint-staged": "^10.0.9",
     "prettier": "2.0.2",
     "prettier-plugin-apex": "1.13.0",
-    "semantic-release-cli": "^5.2.3"
+    "semantic-release-cli": "^5.4.6"
   },
   "husky": {
     "hooks": {
